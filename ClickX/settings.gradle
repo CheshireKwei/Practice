@@ -1,0 +1,2 @@
+include ':app'
+rootProject.name = "猫猫头连点器"
