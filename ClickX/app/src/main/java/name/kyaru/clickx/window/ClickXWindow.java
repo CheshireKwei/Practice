@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import name.kyaru.clickx.R;
+<<<<<<< HEAD
 import name.kyaru.clickx.service.IWindow;
 import name.kyaru.clickx.utils.DPConverter;
 
@@ -28,6 +29,17 @@ public class ClickXWindow implements IWindow {
     private static final int STATE_HIDE_LOW = 1;
     private static final int STATE_HIDE_NORMAL = 2;
     private static final int STATE_HIDE_HIGH = 3;
+=======
+import name.kyaru.clickx.service.IFunction;
+import name.kyaru.clickx.utils.DPConverter;
+import name.kyaru.clickx.utils.WindowHolder;
+
+/* 首先显示的窗口，主要窗口 */
+public class ClickXWindow extends AbsWindow {
+    private static final int FLAGS_NORMAL = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+    private static final int FLAGS_THROUGH = WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+    private static final int LEVEL_HIDE_LOW = 1;
+>>>>>>> 2d93302... 提交
     private static Context appContext;
     private IFunction funcImpl;
     private WindowManager windowManager;
@@ -45,12 +57,23 @@ public class ClickXWindow implements IWindow {
     private Button continuousClickArea;
     private WindowManager.LayoutParams fwLayoutParams;
     private WindowManager.LayoutParams rwLayoutParams;
+<<<<<<< HEAD
     private Handler hChangeState;
     private Runnable task;
     private int hideState; //隐藏状态
     private int clickPointX;
     private int clickPointY;
     private boolean clicking = false; //是否已点击
+=======
+    private Handler hChangeLEVEL;
+    private Runnable task;
+    private WindowHolder wHolder;
+    private int recentlyHideLevel; //隐藏状态
+    private int clickPointX;
+    private int clickPointY;
+    private boolean clicking = false; //是否已点击
+    private boolean inited = false;
+>>>>>>> 2d93302... 提交
 
     public ClickXWindow(IFunction funcImpl, Context appContext){
         this.funcImpl = funcImpl;
@@ -60,15 +83,51 @@ public class ClickXWindow implements IWindow {
 
     @Override
     public boolean display() {
+<<<<<<< HEAD
         try {
             initView();
         }catch(Exception e){
             return false;
+=======
+        if(!inited) {
+            try {
+                /* 初始化 */
+                initView();
+                buildOtherWindow();
+                inited = true;
+
+                /* 向界面添加窗口 */
+                windowManager.addView(floatingWindow, fwLayoutParams);
+                recentlyHideLevel = LEVEL_HIDE_DEFAULT;
+            } catch (Exception e) {
+                return false;
+            }
+        }else{ //兼容AbsWindow类
+            windowManager.addView(floatingWindow, fwLayoutParams);
+>>>>>>> 2d93302... 提交
         }
 
         return true;
     }
 
+<<<<<<< HEAD
+=======
+
+    @Override
+    public void hide(int level) {
+        if(level == LEVEL_HIDE_LOW) {
+            increaseCount.setVisibility(View.INVISIBLE);
+            decreaseCount.setVisibility(View.INVISIBLE);
+            zoom.setVisibility(View.INVISIBLE);
+            shrink.setVisibility(View.INVISIBLE);
+            moveArea.setVisibility(View.INVISIBLE);
+        }else if(level == AbsWindow.LEVEL_HIDE_EXTREMES){
+            wManager.removeView(floatingWindow);
+        }
+        recentlyHideLevel = level; //记录最近隐藏的等级
+    }
+
+>>>>>>> 2d93302... 提交
     @SuppressLint("ResourceType")
     private void initView(){
         /* 获取视图对象 */
@@ -82,7 +141,11 @@ public class ClickXWindow implements IWindow {
         showExtras = floatingWindow.findViewById(R.id.click_extra);
         moveArea = floatingWindow.findViewById(R.id.touch_move);
         continuousClickArea = floatingWindow.findViewById(R.id.click_loop_click);
+<<<<<<< HEAD
         hChangeState = new Handler(Looper.getMainLooper()){ //通过Handler在主线程改变状态
+=======
+        hChangeLEVEL = new Handler(Looper.getMainLooper()){ //通过Handler在主线程改变状态
+>>>>>>> 2d93302... 提交
             @Override
             public void handleMessage(@NonNull Message msg) {
                 clicking = false;
@@ -93,7 +156,11 @@ public class ClickXWindow implements IWindow {
         task = new Runnable() { //执行连点
             @Override
             public void run() {
+<<<<<<< HEAD
                 funcImpl.click(clickPointX, clickPointY, wdParams.clickCount, wdParams.clickDelay, hChangeState);
+=======
+                funcImpl.click(clickPointX, clickPointY, wdParams.clickCount, wdParams.clickDelay, hChangeLEVEL);
+>>>>>>> 2d93302... 提交
             }
         };
 
@@ -155,10 +222,19 @@ public class ClickXWindow implements IWindow {
 
         /* 刷新文本 */
         refreshText();
+<<<<<<< HEAD
 
         /* 向界面添加窗口 */
         windowManager.addView(floatingWindow, fwLayoutParams);
         hideState = STATE_HIDE_LOW;
+=======
+    }
+
+    private void buildOtherWindow(){
+        wHolder = new WindowHolder(windowManager);
+        //todo 创建其他窗口的实例
+        wHolder.add(new ScriptWindow(funcImpl, wHolder));
+>>>>>>> 2d93302... 提交
     }
 
     private void saveParams(){
@@ -198,7 +274,11 @@ public class ClickXWindow implements IWindow {
 
     /* 资源释放 */
     private void close(){
+<<<<<<< HEAD
         windowManager.removeView(floatingWindow);
+=======
+        wHolder.destory();
+>>>>>>> 2d93302... 提交
         pExtras.dismiss();
         pRestore.dismiss();
         funcImpl.disable();
@@ -332,6 +412,10 @@ public class ClickXWindow implements IWindow {
     }
 
     private class OnMenuItemClickListenerImpl implements PopupMenu.OnMenuItemClickListener{
+<<<<<<< HEAD
+=======
+        //添加附加功能
+>>>>>>> 2d93302... 提交
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             switch(item.getItemId()){
@@ -354,6 +438,7 @@ public class ClickXWindow implements IWindow {
                     close();
                     break;
                 case R.id.click_hide_window: //隐藏
+<<<<<<< HEAD
                     if(hideState == STATE_HIDE_LOW){ //隐藏部分控件
                         increaseCount.setVisibility(View.INVISIBLE);
                         decreaseCount.setVisibility(View.INVISIBLE);
@@ -364,6 +449,13 @@ public class ClickXWindow implements IWindow {
                         windowManager.updateViewLayout(floatingWindow, fwLayoutParams); //刷新窗口
                     }else if(hideState == STATE_HIDE_NORMAL){ //直接移除悬浮窗
                         windowManager.removeView(floatingWindow);
+=======
+                    if(recentlyHideLevel == LEVEL_HIDE_DEFAULT){ //隐藏部分控件
+                        hide(LEVEL_HIDE_LOW);
+                        windowManager.updateViewLayout(floatingWindow, fwLayoutParams); //刷新窗口
+                    }else if(recentlyHideLevel == LEVEL_HIDE_LOW){ //直接移除悬浮窗
+                        hide(LEVEL_HIDE_EXTREMES);
+>>>>>>> 2d93302... 提交
                         windowManager.addView(restoreWindow, rwLayoutParams);
                         increaseCount.setVisibility(View.VISIBLE);
                         decreaseCount.setVisibility(View.VISIBLE);
@@ -372,6 +464,7 @@ public class ClickXWindow implements IWindow {
                         moveArea.setVisibility(View.VISIBLE);
                         continuousClickArea.setVisibility(View.VISIBLE);
                         fwLayoutParams.flags = FLAGS_NORMAL; //可被点击
+<<<<<<< HEAD
                         hideState = STATE_HIDE_HIGH;
                     }
                     break;
@@ -380,6 +473,16 @@ public class ClickXWindow implements IWindow {
                         windowManager.removeView(restoreWindow);  //移除第二个悬浮窗
                         windowManager.addView(floatingWindow, fwLayoutParams); //添加第一个悬浮窗
                         hideState = STATE_HIDE_LOW;
+=======
+                        recentlyHideLevel = LEVEL_HIDE_EXTREMES;
+                    }
+                    break;
+                case R.id.click_restore: //点击恢复第一个悬浮窗
+                    if(recentlyHideLevel == LEVEL_HIDE_EXTREMES){
+                        windowManager.removeView(restoreWindow);  //移除第二个悬浮窗
+                        windowManager.addView(floatingWindow, fwLayoutParams); //添加第一个悬浮窗
+                        recentlyHideLevel = LEVEL_HIDE_DEFAULT;
+>>>>>>> 2d93302... 提交
                     }
                     break;
                 case R.id.click_load_params: //加载参数
@@ -392,6 +495,13 @@ public class ClickXWindow implements IWindow {
                     saveParams();
                     Toast.makeText(appContext, "保存完毕", Toast.LENGTH_SHORT).show();
                     break;
+<<<<<<< HEAD
+=======
+                case R.id.click_show_scriptwindow:
+                    wHolder.hide(index.CLICKX, LEVEL_HIDE_EXTREMES); //隐藏此窗口
+                    wHolder.display(index.SCRIPT);
+                    break;
+>>>>>>> 2d93302... 提交
             }
 
             return false;

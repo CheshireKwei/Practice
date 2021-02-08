@@ -18,6 +18,12 @@
 		android:id="@+id/click_load_params" 
 		android:title="载入参数"/>
 	<item
+<<<<<<< HEAD
+=======
+		android:id="@+id/click_show_scriptwindow"
+		android:title="脚本窗口"/>
+	<item
+>>>>>>> 2d93302... 提交
 		android:id="@+id/click_exit" 
 		android:title="退出"/>
 </menu>

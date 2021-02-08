@@ -6,7 +6,11 @@ import android.os.Handler;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.Toast;
 import name.kyaru.clickx.window.ClickXWindow;
+<<<<<<< HEAD
 import name.kyaru.clickx.window.IFunction;
+=======
+import name.kyaru.clickx.window.IWindow;
+>>>>>>> 2d93302... 提交
 
 /**
  *  继承AccessibilityService以使用无障碍服务，同时实现IFunction接口以为悬浮窗提供具体的功能
