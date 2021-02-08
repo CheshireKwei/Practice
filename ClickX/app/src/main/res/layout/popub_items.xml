@@ -1,0 +1,26 @@
+<menu
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content">
+    <item
+		android:id="@+id/click_increase_delay"
+		android:title="增加间隔"/>
+	<item
+		android:id="@+id/click_decrease_delay" 
+		android:title="减小间隔"/>
+	<item
+		android:id="@+id/click_hide_window" 
+		android:title="隐藏窗口"/>
+	<item
+		android:id="@+id/click_save_params" 
+		android:title="保存参数"/>
+	<item
+		android:id="@+id/click_load_params" 
+		android:title="载入参数"/>
+	<item
+		android:id="@+id/click_show_scriptwindow"
+		android:title="脚本窗口"/>
+	<item
+		android:id="@+id/click_exit" 
+		android:title="退出"/>
+</menu>

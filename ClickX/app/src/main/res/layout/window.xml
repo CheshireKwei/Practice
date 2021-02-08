@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="250dp"
+    android:layout_height="200dp"
+    android:orientation="vertical"
+    android:background="@xml/outborder">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center" >
+        <ImageButton
+            android:id="@+id/click_zoom"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/zoom"
+            android:scaleType="centerCrop" />
+        <ImageButton
+            android:id="@+id/click_shrink"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/shrink"
+            android:scaleType="centerCrop" />
+        <ImageButton
+            android:id="@+id/click_increase_count"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/increase_count"
+            android:scaleType="centerCrop" />
+        <ImageButton
+            android:id="@+id/click_decrease_count"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/decrease_count"
+            android:scaleType="centerCrop" />
+        <ImageButton
+            android:id="@+id/click_extra"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/menu"
+            android:scaleType="centerCrop" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/touch_move"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:clickable="true"
+        android:text="10"
+        android:textColor="#000000"
+        android:background="#4FADF4F9"/>
+    <Button
+        android:id="@+id/click_loop_click"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:background="#2FFFAAAA"/>
+</LinearLayout>
