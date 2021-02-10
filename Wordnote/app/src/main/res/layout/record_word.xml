@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <ImageButton
+        android:id="@+id/click_back"
+        android:layout_width="42dp"
+        android:layout_height="32dp"
+        android:src="@android:drawable/btn_default"/>
+    <LinearLayout
+        android:id="@+id/no_effect_1"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_below="@id/click_back"
+        android:orientation="vertical"
+        android:gravity="center">
+        <EditText
+            android:id="@+id/input_en"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:inputType="text" />
+        <EditText
+            android:id="@+id/input_cn"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:inputType="text" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <RadioButton
+                    android:id="@+id/radiobtn_only_en"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:text="仅英语" />
+                <RadioButton
+                    android:id="@+id/radiobtn_only_cn"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:text="仅中文" />
+                <RadioButton
+                    android:id="@+id/radiobtn_en_or_cn"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:text="两者之一" />
+                <RadioButton
+                    android:id="@+id/radiobtn_en_and_cn"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:checked="true"
+                    android:text="完全匹配" />
+            </RadioGroup>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_below="@id/no_effect_1">
+            <ImageButton
+                android:id="@+id/click_search"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1" />
+            <ImageButton
+                android:id="@+id/click_update"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1" />
+            <ImageButton
+                android:id="@+id/click_record"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1" />
+            <ImageButton
+                android:id="@+id/click_delete"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
