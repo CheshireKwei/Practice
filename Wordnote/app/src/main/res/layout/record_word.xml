@@ -17,42 +17,59 @@
             android:id="@+id/input_en"
             android:layout_width="200dp"
             android:layout_height="40dp"
-            android:inputType="text" />
+            android:inputType="text"
+            android:hint="输入英文"/>
         <EditText
             android:id="@+id/input_cn"
             android:layout_width="200dp"
             android:layout_height="40dp"
-            android:inputType="text" />
+            android:inputType="text"
+            android:hint="输入中文"/>
+        <TextView
+            android:id="@+id/show_word_time"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="记录时间"/>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:orientation="horizontal"
+            android:layout_height="80dp"
+            android:orientation="vertical"
             android:gravity="center">
             <RadioGroup
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:id="@+id/singles_part1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:orientation="horizontal"
                 android:gravity="center">
                 <RadioButton
-                    android:id="@+id/radiobtn_only_en"
-                    android:layout_width="80dp"
+                    android:id="@+id/single_only_en"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:text="仅英语" />
                 <RadioButton
-                    android:id="@+id/radiobtn_only_cn"
-                    android:layout_width="80dp"
+                    android:id="@+id/single_only_cn"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:text="仅中文" />
+            </RadioGroup>
+            <RadioGroup
+                android:id="@+id/singles_part2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center">
                 <RadioButton
-                    android:id="@+id/radiobtn_en_or_cn"
-                    android:layout_width="80dp"
-                    android:layout_height="match_parent"
-                    android:text="两者之一" />
-                <RadioButton
-                    android:id="@+id/radiobtn_en_and_cn"
-                    android:layout_width="80dp"
+                    android:id="@+id/single_en_or_cn"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:checked="true"
+                    android:text="两者之一" />
+                <RadioButton
+                    android:id="@+id/single_en_and_cn"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
                     android:text="完全匹配" />
             </RadioGroup>
         </LinearLayout>
@@ -72,11 +89,6 @@
                 android:layout_weight="1" />
             <ImageButton
                 android:id="@+id/click_record"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_weight="1" />
-            <ImageButton
-                android:id="@+id/click_delete"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_weight="1" />

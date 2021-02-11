@@ -1,4 +1,6 @@
 package name.kyaru.wordnote.dao;
+import androidx.annotation.Nullable;
+
 import java.util.List;
 import name.kyaru.wordnote.datastruct.Word;
 
@@ -27,5 +29,9 @@ public class WordDao {
 
     public static List<Word> query(Word word, int mode){
         return null;
+    }
+
+    public static boolean isExists(String en){
+        return false;
     }
 }

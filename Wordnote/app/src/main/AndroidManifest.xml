@@ -19,7 +19,11 @@
         <activity android:name=".RecordWordActivity" />
         <activity android:name=".ReviewActivity" />
         <activity android:name=".RandReviewActivity" />
-        <activity android:name=".ExploreActivity" />
+        <activity android:name=".ExploreActivity">
+            <intent-filter>
+                <action android:name="name.kyaru.action.explore"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
