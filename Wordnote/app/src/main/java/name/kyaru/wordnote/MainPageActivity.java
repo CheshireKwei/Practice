@@ -1,13 +1,13 @@
 package name.kyaru.wordnote;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import name.kyaru.wordnote.utils.ActivityManager;
+import name.kyaru.wordnote.datastruct.Preference;
 
 public class MainPageActivity extends AppCompatActivity {
     private ImageButton clickExit;
@@ -18,11 +18,10 @@ public class MainPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_page);
         initView();
-        ActivityManager.put(this);
     }
 
     private void initView() {
-        clickRecord = findViewById(R.id.click_review_word);
+        clickRecord = findViewById(R.id.click_record_word);
         clickExit = findViewById(R.id.click_exit);
 
         OnClickListenerImpl ocImpl = new OnClickListenerImpl();
@@ -36,12 +35,19 @@ public class MainPageActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.click_record_word:
-
+                    Intent launcher = new Intent(MainPageActivity.this, RecordWordActivity.class);
+                    startActivity(launcher);
                     break;
                 case R.id.click_exit:
-                    ActivityManager.finishAll();
+                    finish();
                     break;
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Preference.savePreference(this);
     }
 }

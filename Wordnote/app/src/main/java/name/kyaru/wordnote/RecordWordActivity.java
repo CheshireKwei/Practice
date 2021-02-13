@@ -1,5 +1,6 @@
 package name.kyaru.wordnote;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -8,14 +9,12 @@ import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import java.util.List;
-
 import name.kyaru.wordnote.dao.WordDao;
+import name.kyaru.wordnote.datastruct.Preference;
 import name.kyaru.wordnote.datastruct.Word;
-import name.kyaru.wordnote.utils.ActivityManager;
+import name.kyaru.wordnote.utils.DatabaseCreator;
 
 public class RecordWordActivity extends AppCompatActivity {
     private static final int LIMIT_CHAR_NUM = 15;
@@ -23,19 +22,26 @@ public class RecordWordActivity extends AppCompatActivity {
     private EditText inputEn;
     private EditText inputCn;
     private TextView showWordTime;
-    private RadioGroup rgroup1;
-    private RadioGroup rgroup2;
+    private RadioGroup rgroup;
     private int checkedId = R.id.single_en_or_cn;
     private ImageButton clickSearch;
     private ImageButton clickUpdate;
     private ImageButton clickRecord;
+    private SQLiteDatabase wdb;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.record_word);
-        ActivityManager.put(this);
         initView();
+        initDatabase();
+    }
+
+    private void initDatabase() {
+        DatabaseCreator creator = new DatabaseCreator(this, "words", null, 1);
+        wdb = creator.getWritableDatabase();
+        WordDao.setDatabase(wdb); //为Dao设置数据库
+        Preference.loadPreference(this); //加载id等数据
     }
 
     private void initView(){
@@ -45,8 +51,7 @@ public class RecordWordActivity extends AppCompatActivity {
         clickUpdate = findViewById(R.id.click_update);
         inputEn = findViewById(R.id.input_en);
         inputCn = findViewById(R.id.input_cn);
-        rgroup1 = findViewById(R.id.singles_part1);
-        rgroup2 = findViewById(R.id.singles_part2);
+        rgroup = findViewById(R.id.singles);;
         showWordTime = findViewById(R.id.show_word_time);
 
         OnClickListener onClickImpl = new OnClickListenerImpl();
@@ -56,8 +61,7 @@ public class RecordWordActivity extends AppCompatActivity {
         clickUpdate.setOnClickListener(onClickImpl);
 
         RadioGroup.OnCheckedChangeListener onCheckImpl = new OnCheckedChangeListenerImpl();
-        rgroup1.setOnCheckedChangeListener(onCheckImpl);
-        rgroup2.setOnCheckedChangeListener(onCheckImpl);
+        rgroup.setOnCheckedChangeListener(onCheckImpl);
     }
 
     private class OnClickListenerImpl implements OnClickListener {
@@ -85,7 +89,7 @@ public class RecordWordActivity extends AppCompatActivity {
             int mode = WordDao.MODE_EN_OR_CN;
 
             switch (checkedId){
-                case R.id.single_only_en:
+                case R.id.single_only_en: //仅匹配英文
                     en = inputEn.getText().toString();
                     if(en.equals("")){
                         Toast.makeText(RecordWordActivity.this, "英文不能为空", Toast.LENGTH_SHORT).show();
@@ -93,15 +97,15 @@ public class RecordWordActivity extends AppCompatActivity {
                     }
                     mode = WordDao.MODE_ONLY_EN;
                     break;
-                case R.id.single_only_cn:
+                case R.id.single_only_cn: //仅匹配中文
                     cn = inputCn.getText().toString();
-                    if(en.equals("")){
+                    if(cn.equals("")){
                         Toast.makeText(RecordWordActivity.this, "中文不能为空", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     mode = WordDao.MODE_ONLY_CN;
                     break;
-                case R.id.single_en_or_cn:
+                case R.id.single_en_or_cn: //中英文满足一个
                     en = inputEn.getText().toString();
                     cn = inputCn.getText().toString();
                     if(en.equals("") && cn.equals("")){
@@ -110,7 +114,7 @@ public class RecordWordActivity extends AppCompatActivity {
                     }
                     mode = WordDao.MODE_EN_OR_CN;
                     break;
-                case R.id.single_en_and_cn:
+                case R.id.single_en_and_cn: //中英文匹配
                     en = inputEn.getText().toString();
                     cn = inputCn.getText().toString();
                     if(en.equals("") || cn.equals("")){
@@ -154,10 +158,11 @@ public class RecordWordActivity extends AppCompatActivity {
                 return;
             }
             //todo 对单词是否重复进行检测
+            Word data = new Word(Preference.nextId(), en, cn, System.currentTimeMillis());
 
 
 
-            boolean recordOK = WordDao.insert(new Word(en, cn, System.currentTimeMillis()));
+            boolean recordOK = WordDao.insert(data);
             if(recordOK){
                 Toast.makeText(RecordWordActivity.this, "记录完成", Toast.LENGTH_SHORT).show();
             }else{
