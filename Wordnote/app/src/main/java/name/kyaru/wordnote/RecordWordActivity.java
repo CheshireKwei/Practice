@@ -1,47 +1,38 @@
 package name.kyaru.wordnote;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import name.kyaru.wordnote.dao.WordDao;
 import name.kyaru.wordnote.datastruct.Preference;
 import name.kyaru.wordnote.datastruct.Word;
-import name.kyaru.wordnote.utils.DatabaseCreator;
 
 public class RecordWordActivity extends AppCompatActivity {
     private static final int LIMIT_CHAR_NUM = 15;
+    private static final int MODE_CHECK_EN = 0;
+    private static final int MODE_CHECK_CN = 1;
+    private static final int MODE_CHECK_ANY = 2;
+    private static final int MODE_CHECK_ALL = 3;
     private ImageButton clickBack;
     private EditText inputEn;
     private EditText inputCn;
-    private TextView showWordTime;
     private RadioGroup rgroup;
     private int checkedId = R.id.single_en_or_cn;
     private ImageButton clickSearch;
     private ImageButton clickUpdate;
     private ImageButton clickRecord;
-    private SQLiteDatabase wdb;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.record_word);
         initView();
-        initDatabase();
-    }
-
-    private void initDatabase() {
-        DatabaseCreator creator = new DatabaseCreator(this, "words", null, 1);
-        wdb = creator.getWritableDatabase();
-        WordDao.setDatabase(wdb); //为Dao设置数据库
-        Preference.loadPreference(this); //加载id等数据
     }
 
     private void initView(){
@@ -52,7 +43,6 @@ public class RecordWordActivity extends AppCompatActivity {
         inputEn = findViewById(R.id.input_en);
         inputCn = findViewById(R.id.input_cn);
         rgroup = findViewById(R.id.singles);;
-        showWordTime = findViewById(R.id.show_word_time);
 
         OnClickListener onClickImpl = new OnClickListenerImpl();
         clickBack.setOnClickListener(onClickImpl);
@@ -129,7 +119,8 @@ public class RecordWordActivity extends AppCompatActivity {
             Intent launcher = new Intent(RecordWordActivity.this, ExploreActivity.class);
             launcher.putExtra("en", en);
             launcher.putExtra("cn", cn);
-            launcher.putExtra("mode", mode);
+            //launcher.putExtra("mode", mode);
+            launcher.putExtra("mode", WordDao.MODE_ALL);
             startActivity(launcher);
         }
 
@@ -141,12 +132,8 @@ public class RecordWordActivity extends AppCompatActivity {
                 Toast.makeText(RecordWordActivity.this, "中英文不能为空", Toast.LENGTH_SHORT).show();
                 return;
             }
-            boolean updateOK = WordDao.update(new Word(en, cn, System.currentTimeMillis()));
-            if(updateOK){
-                Toast.makeText(RecordWordActivity.this, "更新完成", Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(RecordWordActivity.this, "更新失败或单词不存在", Toast.LENGTH_SHORT).show();
-            }
+
+            //todo
         }
 
         private void record(){ //记录单词
@@ -160,15 +147,18 @@ public class RecordWordActivity extends AppCompatActivity {
             //todo 对单词是否重复进行检测
             Word data = new Word(Preference.nextId(), en, cn, System.currentTimeMillis());
 
-
-
-            boolean recordOK = WordDao.insert(data);
-            if(recordOK){
-                Toast.makeText(RecordWordActivity.this, "记录完成", Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(RecordWordActivity.this, "记录失败", Toast.LENGTH_SHORT).show();
+            //todo
+            boolean b = WordDao.insert(data, WordDao.TABLE_LAST_WORDS);
+            if(b){
+                Toast.makeText(RecordWordActivity.this, "已记录", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private boolean checkInput(int mode){
+        //todo
+
+        return false;
     }
 
     private class OnCheckedChangeListenerImpl implements RadioGroup.OnCheckedChangeListener{

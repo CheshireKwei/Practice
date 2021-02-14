@@ -50,14 +50,4 @@ public class Word {
     public void setId(int id){
         this.id = id;
     }
-
-    @Override
-    public String toString() {
-        return "Word{" +
-                "id=" + id +
-                ", en='" + en + '\'' +
-                ", cn='" + cn + '\'' +
-                ", recordTime=" + recordTime +
-                '}';
-    }
 }

@@ -25,11 +25,6 @@
             android:layout_height="40dp"
             android:inputType="text"
             android:hint="输入中文"/>
-        <TextView
-            android:id="@+id/show_word_time"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="记录时间"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="80dp"
