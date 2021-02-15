@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import name.kyaru.wordnote.R;
 
+/* 特殊功能的提示框 */
 public class SpecialAlterDialog {
     public static final int TYPE_WARN = 0;
     private static AlertDialog.Builder builder;

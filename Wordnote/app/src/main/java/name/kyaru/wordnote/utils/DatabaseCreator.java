@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 import name.kyaru.wordnote.dao.WordDao;
 
+/* 创建数据库 */
 public class DatabaseCreator extends SQLiteOpenHelper {
     public static final String DBNAME_WORDS = "words";
 
@@ -16,7 +17,6 @@ public class DatabaseCreator extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(
             "CREATE TABLE IF NOT EXISTS `" + WordDao.TABLE_WORDS + "`(" +
-            WordDao.FIELD_ID + " INT PRIMARY KEY," +
             WordDao.FIELD_EN + " VARCHAR(30) NOT NULL," +
             WordDao.FIELD_CN + " VARCHAR(30) NOT NULL," +
             "`" + WordDao.FIELD_TIME + "`" + " LONG NOT NULL" +
@@ -25,7 +25,6 @@ public class DatabaseCreator extends SQLiteOpenHelper {
 
         db.execSQL(
             "CREATE TABLE IF NOT EXISTS `" + WordDao.TABLE_LAST_WORDS + "`(" +
-            WordDao.FIELD_ID + " INT PRIMARY KEY," +
             WordDao.FIELD_EN + " VARCHAR(30) NOT NULL," +
             WordDao.FIELD_CN + " VARCHAR(30) NOT NULL," +
             "`" + WordDao.FIELD_TIME + "`" + " LONG NOT NULL" +

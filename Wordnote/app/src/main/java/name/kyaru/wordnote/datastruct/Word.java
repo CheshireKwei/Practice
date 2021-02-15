@@ -1,7 +1,7 @@
 package name.kyaru.wordnote.datastruct;
 
+/* 单词的 Bean */
 public class Word {
-    private int id;
     private String en;
     private String cn;
     private long recordTime;
@@ -12,11 +12,6 @@ public class Word {
         this.en = en;
         this.cn = cn;
         this.recordTime = rtime;
-    }
-
-    public Word(int id, String en, String cn, long rtime){
-        this(en, cn, rtime);
-        this.id = id;
     }
 
     public String getEn() {
@@ -41,13 +36,5 @@ public class Word {
 
     public void setRecordTime(long recordTime) {
         this.recordTime = recordTime;
-    }
-
-    public int getId(){
-        return id;
-    }
-
-    public void setId(int id){
-        this.id = id;
     }
 }

@@ -2,23 +2,19 @@ package name.kyaru.wordnote.dao;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import name.kyaru.wordnote.datastruct.Word;
 
 public class WordDao {
     public static final String TABLE_WORDS = "words";
     public static final String TABLE_LAST_WORDS = "last_words";
-    public static final String FIELD_ID = "id";
     public static final String FIELD_EN = "en";
     public static final String FIELD_CN = "cn";
     public static final String FIELD_TIME = "time";
     public static final int MODE_ALL = -114514;
     public static final int MODE_ONLY_EN = 0;
     public static final int MODE_ONLY_CN = 1;
-    public static final int MODE_ONLY_ID = 2;
     public static final int MODE_EN_OR_CN = 3;
     public static final int MODE_EN_AND_CN = 4;
     private static SQLiteDatabase db;
@@ -57,11 +53,10 @@ public class WordDao {
     public static List<Word> query(Word word, int mode, String table){
         Cursor results = detailQuery(word, mode, table);
         if(results.getCount() > 0){
-            List<Word> words = new ArrayList<>();
+            List<Word> words = new LinkedList<>();
             if(results.moveToFirst()) {
                 do {
                     Word w = new Word();
-                    w.setId(results.getInt(results.getColumnIndex(WordDao.FIELD_ID)));
                     w.setEn(results.getString(results.getColumnIndex(WordDao.FIELD_EN)));
                     w.setCn(results.getString(results.getColumnIndex(WordDao.FIELD_CN)));
                     w.setRecordTime(results.getLong(results.getColumnIndex(WordDao.FIELD_TIME)));
@@ -89,7 +84,6 @@ public class WordDao {
 
     public static ContentValues fromWord(Word word){
         ContentValues cv = new ContentValues();
-        cv.put(FIELD_ID, word.getId());
         cv.put(FIELD_EN, word.getEn());
         cv.put(FIELD_CN, word.getCn());
         cv.put(FIELD_TIME, word.getRecordTime());
@@ -103,8 +97,6 @@ public class WordDao {
                 return db.query(table, null, null, null, null, null, null);
             case MODE_EN_AND_CN:
                 return db.query(table, null, "en = ? OR cn = ?", new String[]{word.getEn(), word.getCn()}, null, null, null);
-            case MODE_ONLY_ID:
-                return db.query(table, null, "id = ?", new String[]{Integer.toString(word.getId())}, null, null, null);
             default:
                 return null;
         }

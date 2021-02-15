@@ -1,10 +1,9 @@
 package name.kyaru.wordnote;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import name.kyaru.wordnote.datastruct.Preference;
 
+/* 启动界面 */
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

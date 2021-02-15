@@ -13,6 +13,7 @@ import name.kyaru.wordnote.dao.WordDao;
 import name.kyaru.wordnote.datastruct.Preference;
 import name.kyaru.wordnote.datastruct.Word;
 
+/* 记录单词 */
 public class RecordWordActivity extends AppCompatActivity {
     private static final int LIMIT_CHAR_NUM = 15;
     private static final int MODE_CHECK_EN = 0;
@@ -119,8 +120,7 @@ public class RecordWordActivity extends AppCompatActivity {
             Intent launcher = new Intent(RecordWordActivity.this, ExploreActivity.class);
             launcher.putExtra("en", en);
             launcher.putExtra("cn", cn);
-            //launcher.putExtra("mode", mode);
-            launcher.putExtra("mode", WordDao.MODE_ALL);
+            launcher.putExtra("mode", mode);
             startActivity(launcher);
         }
 
@@ -134,6 +134,8 @@ public class RecordWordActivity extends AppCompatActivity {
             }
 
             //todo
+            WordDao.update(new Word(en, cn, System.currentTimeMillis()), WordDao.MODE_EN_AND_CN, WordDao.TABLE_WORDS);
+            WordDao.update(new Word(en, cn, System.currentTimeMillis()), WordDao.MODE_EN_AND_CN, WordDao.TABLE_LAST_WORDS);
         }
 
         private void record(){ //记录单词
@@ -145,7 +147,7 @@ public class RecordWordActivity extends AppCompatActivity {
                 return;
             }
             //todo 对单词是否重复进行检测
-            Word data = new Word(Preference.nextId(), en, cn, System.currentTimeMillis());
+            Word data = new Word(en, cn, System.currentTimeMillis());
 
             //todo
             boolean b = WordDao.insert(data, WordDao.TABLE_LAST_WORDS);
