@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void playVideo(){
-
+        //todo
     }
 
     private void turnToMainPage(){
