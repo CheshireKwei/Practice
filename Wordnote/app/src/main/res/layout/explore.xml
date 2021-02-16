@@ -5,11 +5,11 @@
     android:layout_height="match_parent">
     <ImageButton
         android:id="@+id/click_back"
-        android:layout_width="42dp"
-        android:layout_height="32dp"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
         android:src="@android:drawable/btn_default"/>
     <TextView
-        android:id="@+id/show_info"
+        android:id="@+id/show_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/click_back"
@@ -19,7 +19,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/show_info">
+        android:layout_below="@id/show_title">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/show_words"
             android:layout_width="match_parent"

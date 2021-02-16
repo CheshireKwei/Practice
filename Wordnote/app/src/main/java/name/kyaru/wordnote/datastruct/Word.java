@@ -4,6 +4,7 @@ package name.kyaru.wordnote.datastruct;
 public class Word {
     private String en;
     private String cn;
+    private String table;
     private long recordTime;
 
     public Word(){}
@@ -11,6 +12,11 @@ public class Word {
     public Word(String en, String cn, long rtime){
         this.en = en;
         this.cn = cn;
+        this.recordTime = rtime;
+    }
+
+    public Word(String en, String cn, String table, long rtime){
+        this(en, cn, rtime);
         this.recordTime = rtime;
     }
 
@@ -36,5 +42,13 @@ public class Word {
 
     public void setRecordTime(long recordTime) {
         this.recordTime = recordTime;
+    }
+
+    public String getTable() {
+        return table;
+    }
+
+    public void setTable(String table) {
+        this.table = table;
     }
 }

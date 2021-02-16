@@ -10,7 +10,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import name.kyaru.wordnote.dao.WordDao;
-import name.kyaru.wordnote.datastruct.Preference;
 import name.kyaru.wordnote.datastruct.Word;
 
 /* 记录单词 */
@@ -118,9 +117,9 @@ public class RecordWordActivity extends AppCompatActivity {
 
             /* 将查询信息传递给ExploreActivity，由其查询并显示结果 */
             Intent launcher = new Intent(RecordWordActivity.this, ExploreActivity.class);
-            launcher.putExtra("en", en);
-            launcher.putExtra("cn", cn);
-            launcher.putExtra("mode", mode);
+            launcher.putExtra(ExploreActivity.KEY_EN, en);
+            launcher.putExtra(ExploreActivity.KEY_CN, cn);
+            launcher.putExtra(ExploreActivity.KEY_MODE, mode);
             startActivity(launcher);
         }
 

@@ -1,13 +1,17 @@
 package name.kyaru.wordnote;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.List;
+
 import name.kyaru.wordnote.dao.WordDao;
-import name.kyaru.wordnote.datastruct.Preference;
+import name.kyaru.wordnote.datastruct.ReviewPreference;
+import name.kyaru.wordnote.datastruct.Word;
+import name.kyaru.wordnote.utils.BasicTool;
 import name.kyaru.wordnote.utils.DatabaseCreator;
 
 /* 主菜单界面 */
@@ -25,12 +29,36 @@ public class MainPageActivity extends AppCompatActivity {
         setContentView(R.layout.main_page);
         initView();
         initDatabase();
+        dataMove();
     }
 
+    //根据是否是同一天来移动数据
+    private void dataMove() {
+        if(!isSameDay()){ //不是同一天，移动单词
+            List<Word> words = WordDao.query(null, WordDao.MODE_ALL, WordDao.TABLE_LAST_WORDS);
+            for(Word w : words){
+                WordDao.insert(w, WordDao.TABLE_WORDS); //将前一天的单词移动到常驻表
+            }
+            WordDao.delete(null, WordDao.MODE_ALL, WordDao.TABLE_LAST_WORDS); //删除所有单词
+        }
+    }
+
+    private boolean isSameDay(){
+        long t1 = ReviewPreference.time;
+        long t2 = System.currentTimeMillis();
+        boolean b = BasicTool.isSameDay(t1, t2);
+        if(!b){
+            ReviewPreference.time = t2; //不是同一天则保存当天时间，供后面比较
+        }
+
+        return b;
+    }
+
+    //初始化数据库
     private void initDatabase() {
         creator = new DatabaseCreator(this, DatabaseCreator.DBNAME_WORDS, null, 1);
         WordDao.setDatabase(creator.getWritableDatabase());
-        Preference.loadPreference(this);
+        ReviewPreference.loadPreference(this); //加载首选项
     }
 
     private void initView() {
@@ -61,17 +89,17 @@ public class MainPageActivity extends AppCompatActivity {
                     break;
                 case R.id.click_explore_all:
                     launcher = new Intent(MainPageActivity.this, ExploreActivity.class);
-                    launcher.putExtra(ExploreActivity.KEY_MODE_NAME, WordDao.MODE_ALL); //以ALL模式启动ExploreActivity，查询并显示所有单词
+                    launcher.putExtra(ExploreActivity.KEY_MODE, WordDao.MODE_ALL); //以ALL模式启动ExploreActivity，查询并显示所有单词
                     startActivity(launcher);
                     break;
                 case R.id.click_review_word:
                     launcher = new Intent(MainPageActivity.this, ReviewActivity.class);
-                    launcher.putExtra(ExploreActivity.KEY_MODE_NAME, ReviewActivity.MODE_LAST_WORDS); //以LAST_WORDS模式启动ExploreActivity，复习前一天的单词
+                    launcher.putExtra(ExploreActivity.KEY_MODE, ReviewActivity.MODE_LAST_WORDS); //以LAST_WORDS模式启动ExploreActivity，复习前一天的单词
                     startActivity(launcher);
                     break;
                 case R.id.click_review_rand_word:
                     launcher = new Intent(MainPageActivity.this, ReviewActivity.class);
-                    launcher.putExtra(ExploreActivity.KEY_MODE_NAME, ReviewActivity.MODE_RAND_WORDS); //以RAND_WORDS模式启动ExploreActivity，随机复习以前的单词
+                    launcher.putExtra(ReviewActivity.KEY_MODE, ReviewActivity.MODE_RAND_WORDS); //以RAND_WORDS模式启动ExploreActivity，随机复习以前的单词
                     startActivity(launcher);
                     break;
                 case R.id.click_exit:
@@ -81,10 +109,11 @@ public class MainPageActivity extends AppCompatActivity {
         }
     }
 
+    //关闭数据库，保存首选项
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Preference.savePreference(this);
+        ReviewPreference.savePreference(this);
         creator.close();
         WordDao.setDatabase(null);
     }

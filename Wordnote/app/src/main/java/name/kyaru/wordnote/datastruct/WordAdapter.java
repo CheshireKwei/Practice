@@ -18,9 +18,9 @@ public class WordAdapter extends RecyclerView.Adapter {
     private List<Word> words;
     private Context context;
 
-    public WordAdapter(List<Word> words, Context context){
-        this.words = words;
+    public WordAdapter(Context context, List<Word> words){
         this.context = context;
+        this.words = words;
     }
 
     @NonNull
@@ -63,7 +63,7 @@ public class WordAdapter extends RecyclerView.Adapter {
 
     //移除子项
     private void removeItem(int position){
-        WordDao.delete(words.get(position), WordDao.MODE_EN_AND_CN, WordDao.TABLE_LAST_WORDS); //先删除数据库记录
+        WordDao.delete(words.get(position), WordDao.MODE_EN_AND_CN, words.get(position).getTable()); //先删除数据库记录
         words.remove(position);//移除集合元素
         notifyItemRemoved(position);//移除视图项目
         notifyItemRangeChanged(position, words.size() - position); //刷新发生改变的位置的数据及其后的数据

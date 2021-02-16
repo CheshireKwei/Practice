@@ -52,7 +52,7 @@ public class WordDao {
 
     public static List<Word> query(Word word, int mode, String table){
         Cursor results = detailQuery(word, mode, table);
-        if(results.getCount() > 0){
+        if(results != null && results.getCount() > 0){
             List<Word> words = new LinkedList<>();
             if(results.moveToFirst()) {
                 do {
@@ -60,6 +60,7 @@ public class WordDao {
                     w.setEn(results.getString(results.getColumnIndex(WordDao.FIELD_EN)));
                     w.setCn(results.getString(results.getColumnIndex(WordDao.FIELD_CN)));
                     w.setRecordTime(results.getLong(results.getColumnIndex(WordDao.FIELD_TIME)));
+                    w.setTable(table); //记录单词来自哪张表
                     words.add(w);
                 } while (results.moveToNext());
             }
@@ -72,14 +73,10 @@ public class WordDao {
 
     public static boolean exists(Word word, int mode, String table){
         Cursor results =  detailQuery(word, mode, table);
-        boolean b = results.getCount() > 0;
+        boolean b = results != null;
         results.close();
 
         return b;
-    }
-
-    public static void setDatabase(SQLiteDatabase db){
-        WordDao.db = db;
     }
 
     public static ContentValues fromWord(Word word){
@@ -91,14 +88,24 @@ public class WordDao {
         return cv;
     }
 
+    public static void setDatabase(SQLiteDatabase db){
+        WordDao.db = db;
+    }
+
     private static Cursor detailQuery(Word word, int mode, String table){
         switch (mode){
             case MODE_ALL:
                 return db.query(table, null, null, null, null, null, null);
             case MODE_EN_AND_CN:
+                return db.query(table, null, "en = ? AND cn = ?", new String[]{word.getEn(), word.getCn()}, null, null, null);
+            case MODE_ONLY_EN:
+                return db.query(table, null, "en = ?", new String[]{word.getEn()}, null, null, null);
+            case MODE_ONLY_CN:
+                return db.query(table, null, "cn = ?", new String[]{word.getCn()}, null, null, null);
+            case MODE_EN_OR_CN:
                 return db.query(table, null, "en = ? OR cn = ?", new String[]{word.getEn(), word.getCn()}, null, null, null);
             default:
-                return null;
+                throw new IllegalArgumentException("excepted mode");
         }
     }
 }

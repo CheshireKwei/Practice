@@ -29,14 +29,12 @@
         android:textSize="15sp"/>
     <ImageButton
         android:id="@+id/click_show_time"
-        android:layout_width="0dp"
+        android:layout_width="40dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         android:src="@android:drawable/btn_default"/>
     <ImageButton
         android:id="@+id/click_delete"
-        android:layout_width="0dp"
+        android:layout_width="40dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         android:src="@android:drawable/btn_default" />
 </LinearLayout>
