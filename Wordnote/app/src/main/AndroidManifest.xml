@@ -15,6 +15,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ExploreActivity">
+            <intent-filter>
+                <action android:name="name.kyaru.action.explore" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainPageActivity" />
+        <activity android:name=".RecordWordActivity" />
+        <activity android:name=".ReviewActivity" />
+        <activity android:name=".RandReviewActivity" />
+        <activity android:name=".ResultActivity" />
     </application>
 
 </manifest>

@@ -1,7 +1,11 @@
 package name.kyaru.wordnote;
-
 import org.junit.Test;
-
+import java.util.LinkedList;
+import java.util.List;
+import name.kyaru.wordnote.datastruct.Word;
+import name.kyaru.wordnote.utils.BasicTool;
+import name.kyaru.wordnote.utils.CnSelectionGenerator;
+import name.kyaru.wordnote.utils.Generalisable;
 import static org.junit.Assert.*;
 
 /**
@@ -13,5 +17,9 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
+    }
+    @Test
+    public void test(){
+        System.out.println(BasicTool.isSameDay(1613472682769L, 1623972682769L));
     }
 }

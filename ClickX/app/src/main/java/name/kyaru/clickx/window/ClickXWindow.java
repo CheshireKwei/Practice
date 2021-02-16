@@ -19,6 +19,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import name.kyaru.clickx.R;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+import name.kyaru.clickx.service.IWindow;
+import name.kyaru.clickx.utils.DPConverter;
+
+public class ClickXWindow implements IWindow {
+    private static final int FLAGS_NORMAL = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+    private static final int FLAGS_THROUGH = WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+    private static final int STATE_HIDE_LOW = 1;
+    private static final int STATE_HIDE_NORMAL = 2;
+    private static final int STATE_HIDE_HIGH = 3;
+=======
+>>>>>>> master_mirror
 import name.kyaru.clickx.service.IFunction;
 import name.kyaru.clickx.utils.DPConverter;
 import name.kyaru.clickx.utils.WindowHolder;
@@ -28,6 +42,10 @@ public class ClickXWindow extends AbsWindow {
     private static final int FLAGS_NORMAL = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
     private static final int FLAGS_THROUGH = WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
     private static final int LEVEL_HIDE_LOW = 1;
+<<<<<<< HEAD
+=======
+>>>>>>> 2d93302... 提交
+>>>>>>> master_mirror
     private static Context appContext;
     private IFunction funcImpl;
     private WindowManager windowManager;
@@ -45,6 +63,17 @@ public class ClickXWindow extends AbsWindow {
     private Button continuousClickArea;
     private WindowManager.LayoutParams fwLayoutParams;
     private WindowManager.LayoutParams rwLayoutParams;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    private Handler hChangeState;
+    private Runnable task;
+    private int hideState; //隐藏状态
+    private int clickPointX;
+    private int clickPointY;
+    private boolean clicking = false; //是否已点击
+=======
+>>>>>>> master_mirror
     private Handler hChangeLEVEL;
     private Runnable task;
     private WindowHolder wHolder;
@@ -53,6 +82,10 @@ public class ClickXWindow extends AbsWindow {
     private int clickPointY;
     private boolean clicking = false; //是否已点击
     private boolean inited = false;
+<<<<<<< HEAD
+=======
+>>>>>>> 2d93302... 提交
+>>>>>>> master_mirror
 
     public ClickXWindow(IFunction funcImpl, Context appContext){
         this.funcImpl = funcImpl;
@@ -62,6 +95,15 @@ public class ClickXWindow extends AbsWindow {
 
     @Override
     public boolean display() {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+        try {
+            initView();
+        }catch(Exception e){
+            return false;
+=======
+>>>>>>> master_mirror
         if(!inited) {
             try {
                 /* 初始化 */
@@ -77,11 +119,20 @@ public class ClickXWindow extends AbsWindow {
             }
         }else{ //兼容AbsWindow类
             windowManager.addView(floatingWindow, fwLayoutParams);
+<<<<<<< HEAD
+=======
+>>>>>>> 2d93302... 提交
+>>>>>>> master_mirror
         }
 
         return true;
     }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> master_mirror
 
     @Override
     public void hide(int level) {
@@ -97,6 +148,10 @@ public class ClickXWindow extends AbsWindow {
         recentlyHideLevel = level; //记录最近隐藏的等级
     }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 2d93302... 提交
+>>>>>>> master_mirror
     @SuppressLint("ResourceType")
     private void initView(){
         /* 获取视图对象 */
@@ -110,7 +165,15 @@ public class ClickXWindow extends AbsWindow {
         showExtras = floatingWindow.findViewById(R.id.click_extra);
         moveArea = floatingWindow.findViewById(R.id.touch_move);
         continuousClickArea = floatingWindow.findViewById(R.id.click_loop_click);
+<<<<<<< HEAD
         hChangeLEVEL = new Handler(Looper.getMainLooper()){ //通过Handler在主线程改变状态
+=======
+<<<<<<< HEAD
+        hChangeState = new Handler(Looper.getMainLooper()){ //通过Handler在主线程改变状态
+=======
+        hChangeLEVEL = new Handler(Looper.getMainLooper()){ //通过Handler在主线程改变状态
+>>>>>>> 2d93302... 提交
+>>>>>>> master_mirror
             @Override
             public void handleMessage(@NonNull Message msg) {
                 clicking = false;
@@ -121,7 +184,15 @@ public class ClickXWindow extends AbsWindow {
         task = new Runnable() { //执行连点
             @Override
             public void run() {
+<<<<<<< HEAD
                 funcImpl.click(clickPointX, clickPointY, wdParams.clickCount, wdParams.clickDelay, hChangeLEVEL);
+=======
+<<<<<<< HEAD
+                funcImpl.click(clickPointX, clickPointY, wdParams.clickCount, wdParams.clickDelay, hChangeState);
+=======
+                funcImpl.click(clickPointX, clickPointY, wdParams.clickCount, wdParams.clickDelay, hChangeLEVEL);
+>>>>>>> 2d93302... 提交
+>>>>>>> master_mirror
             }
         };
 
@@ -183,12 +254,25 @@ public class ClickXWindow extends AbsWindow {
 
         /* 刷新文本 */
         refreshText();
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+        /* 向界面添加窗口 */
+        windowManager.addView(floatingWindow, fwLayoutParams);
+        hideState = STATE_HIDE_LOW;
+=======
+>>>>>>> master_mirror
     }
 
     private void buildOtherWindow(){
         wHolder = new WindowHolder(windowManager);
         //todo 创建其他窗口的实例
         wHolder.add(new ScriptWindow(funcImpl, wHolder));
+<<<<<<< HEAD
+=======
+>>>>>>> 2d93302... 提交
+>>>>>>> master_mirror
     }
 
     private void saveParams(){
@@ -228,7 +312,15 @@ public class ClickXWindow extends AbsWindow {
 
     /* 资源释放 */
     private void close(){
+<<<<<<< HEAD
         wHolder.destory();
+=======
+<<<<<<< HEAD
+        windowManager.removeView(floatingWindow);
+=======
+        wHolder.destory();
+>>>>>>> 2d93302... 提交
+>>>>>>> master_mirror
         pExtras.dismiss();
         pRestore.dismiss();
         funcImpl.disable();
@@ -362,7 +454,14 @@ public class ClickXWindow extends AbsWindow {
     }
 
     private class OnMenuItemClickListenerImpl implements PopupMenu.OnMenuItemClickListener{
+<<<<<<< HEAD
         //添加附加功能
+=======
+<<<<<<< HEAD
+=======
+        //添加附加功能
+>>>>>>> 2d93302... 提交
+>>>>>>> master_mirror
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             switch(item.getItemId()){
@@ -385,11 +484,30 @@ public class ClickXWindow extends AbsWindow {
                     close();
                     break;
                 case R.id.click_hide_window: //隐藏
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+                    if(hideState == STATE_HIDE_LOW){ //隐藏部分控件
+                        increaseCount.setVisibility(View.INVISIBLE);
+                        decreaseCount.setVisibility(View.INVISIBLE);
+                        zoom.setVisibility(View.INVISIBLE);
+                        shrink.setVisibility(View.INVISIBLE);
+                        moveArea.setVisibility(View.INVISIBLE);
+                        hideState = STATE_HIDE_NORMAL; //修改隐藏状态
+                        windowManager.updateViewLayout(floatingWindow, fwLayoutParams); //刷新窗口
+                    }else if(hideState == STATE_HIDE_NORMAL){ //直接移除悬浮窗
+                        windowManager.removeView(floatingWindow);
+=======
+>>>>>>> master_mirror
                     if(recentlyHideLevel == LEVEL_HIDE_DEFAULT){ //隐藏部分控件
                         hide(LEVEL_HIDE_LOW);
                         windowManager.updateViewLayout(floatingWindow, fwLayoutParams); //刷新窗口
                     }else if(recentlyHideLevel == LEVEL_HIDE_LOW){ //直接移除悬浮窗
                         hide(LEVEL_HIDE_EXTREMES);
+<<<<<<< HEAD
+=======
+>>>>>>> 2d93302... 提交
+>>>>>>> master_mirror
                         windowManager.addView(restoreWindow, rwLayoutParams);
                         increaseCount.setVisibility(View.VISIBLE);
                         decreaseCount.setVisibility(View.VISIBLE);
@@ -398,6 +516,19 @@ public class ClickXWindow extends AbsWindow {
                         moveArea.setVisibility(View.VISIBLE);
                         continuousClickArea.setVisibility(View.VISIBLE);
                         fwLayoutParams.flags = FLAGS_NORMAL; //可被点击
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+                        hideState = STATE_HIDE_HIGH;
+                    }
+                    break;
+                case R.id.click_restore: //点击恢复第一个悬浮窗
+                    if(hideState == STATE_HIDE_HIGH){
+                        windowManager.removeView(restoreWindow);  //移除第二个悬浮窗
+                        windowManager.addView(floatingWindow, fwLayoutParams); //添加第一个悬浮窗
+                        hideState = STATE_HIDE_LOW;
+=======
+>>>>>>> master_mirror
                         recentlyHideLevel = LEVEL_HIDE_EXTREMES;
                     }
                     break;
@@ -406,6 +537,10 @@ public class ClickXWindow extends AbsWindow {
                         windowManager.removeView(restoreWindow);  //移除第二个悬浮窗
                         windowManager.addView(floatingWindow, fwLayoutParams); //添加第一个悬浮窗
                         recentlyHideLevel = LEVEL_HIDE_DEFAULT;
+<<<<<<< HEAD
+=======
+>>>>>>> 2d93302... 提交
+>>>>>>> master_mirror
                     }
                     break;
                 case R.id.click_load_params: //加载参数
@@ -418,10 +553,19 @@ public class ClickXWindow extends AbsWindow {
                     saveParams();
                     Toast.makeText(appContext, "保存完毕", Toast.LENGTH_SHORT).show();
                     break;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> master_mirror
                 case R.id.click_show_scriptwindow:
                     wHolder.hide(index.CLICKX, LEVEL_HIDE_EXTREMES); //隐藏此窗口
                     wHolder.display(index.SCRIPT);
                     break;
+<<<<<<< HEAD
+=======
+>>>>>>> 2d93302... 提交
+>>>>>>> master_mirror
             }
 
             return false;
