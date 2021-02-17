@@ -117,6 +117,8 @@ public class ReviewActivity extends AppCompatActivity {
             showEn.setText(words.get(beginIndex).getEn()); //设置英文
             showRetainNum.setText("剩余" + (words.size() - reviewTotalNum) + "个");
             changeNextIndex();
+
+            System.out.println("next=" + nextIndex + " begin=" + beginIndex);
             applySelection();
         }
     }
@@ -142,20 +144,23 @@ public class ReviewActivity extends AppCompatActivity {
         reviewTotalNum++; //增加复习总数
 
         //部署选项
-        showEn.setText(words.get(nextIndex - 1).getEn()); //设置英文
+        showEn.setText(words.get(nextIndex).getEn()); //设置英文
         showRetainNum.setText("剩余" + (words.size() - reviewTotalNum) + "个"); //设置剩余个数
         changeNextIndex(); //改变nextIndex到下一个单词
+
+        System.out.println("next2=" + nextIndex + " begin2=" + beginIndex);
         applySelection();
     }
 
     private void changeNextIndex(){
         if(nextIndex == -1){ //为nextIndex初始化
             nextIndex = beginIndex + 1;
+        }else { //如果已初始化，则递增
+            if (nextIndex < words.size()) { //由于beginIndex可能是边界，所以当nextIndex小于单词数目时才递增
+                nextIndex++;
+            }
         }
-        if(nextIndex < words.size()){ //由于beginIndex可能是边界，所以当nextIndex小于单词数目时才递增
-            nextIndex++;
-        }
-        nextIndex = nextIndex % words.size(); //限制大小
+        nextIndex = nextIndex % words.size(); //限制范围
     }
 
     //核对选项
@@ -184,8 +189,9 @@ public class ReviewActivity extends AppCompatActivity {
         clickMean1.setBackgroundResource(R.drawable.not_chose_bg);
         clickMean2.setBackgroundResource(R.drawable.not_chose_bg);;
         clickMean3.setBackgroundResource(R.drawable.not_chose_bg);
+        showAnswer.setText("");
 
-        //还原状态S
+        //还原状态
         afterPick = false;
 
         //如果下一次即将结算，则改变按钮文字

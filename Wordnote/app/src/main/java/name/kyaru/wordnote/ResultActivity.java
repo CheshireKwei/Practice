@@ -35,14 +35,14 @@ public class ResultActivity extends AppCompatActivity {
         int[] datas = resolveIntent();
         int correctRate = calculateCorrectRate(datas[1], datas[2]);
 
+        //计算及保存历史记录
+        saveHistory(datas[1], correctRate, datas[2]);
+
         //显示
         showCorrectNum.setText(datas[1] + "/" + datas[2]);
         showHistCrtNum.setText(ReviewPreference.hisCorrectNum + "/" + ReviewPreference.hisCorrectTotalNum);
         showCorrectRate.setText(correctRate + "%/" + datas[2]);
         showHistCrtRate.setText(ReviewPreference.hisCorrectRate + "%/" +ReviewPreference.hisCorrectRateTotalNum);
-
-        //保存历史记录
-        saveHistory(datas[1], correctRate, datas[2]);
     }
 
     //保存历史
@@ -54,7 +54,7 @@ public class ResultActivity extends AppCompatActivity {
             }
         }
         if(totalNum >= ReviewPreference.hisCorrectRateTotalNum){
-            if(correctRate > ReviewPreference.hisCorrectRate){
+            if(correctRate >= ReviewPreference.hisCorrectRate){
                 ReviewPreference.hisCorrectRate = correctRate;
                 ReviewPreference.hisCorrectRateTotalNum = totalNum;
             }
