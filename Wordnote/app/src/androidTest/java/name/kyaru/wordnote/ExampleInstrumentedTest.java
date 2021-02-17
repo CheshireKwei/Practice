@@ -20,4 +20,6 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("name.kyaru.wordnote", appContext.getPackageName());
     }
+
+
 }

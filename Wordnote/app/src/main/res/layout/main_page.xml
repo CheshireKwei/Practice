@@ -11,37 +11,45 @@
         android:layout_width="200dp"
         android:layout_height="150dp"
         android:scaleType="centerCrop"
-        android:src="@android:drawable/screen_background_dark"/>
+        android:src="@drawable/main_page_title" />
     <ImageButton
         android:id="@+id/click_record_word"
         android:layout_width="80dp"
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:scaleType="centerCrop"
-        android:src="@android:drawable/btn_default"/>
+        android:src="@drawable/record_word"
+        android:background="#00000000"/>
     <ImageButton
         android:id="@+id/click_review_word"
         android:layout_width="80dp"
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:scaleType="centerCrop"
-        android:src="@android:drawable/btn_default"/>
+        android:src="@drawable/review_word"
+        android:background="#00000000"/>
     <ImageButton
         android:id="@+id/click_review_rand_word"
         android:layout_width="80dp"
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
-        android:src="@android:drawable/btn_default"/>
+        android:src="@drawable/review_rand_word"
+        android:scaleType="centerCrop"
+        android:background="#00000000"/>
     <ImageButton
         android:id="@+id/click_explore_all"
         android:layout_width="80dp"
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
-        android:src="@android:drawable/btn_default"/>
+        android:src="@drawable/explore_word"
+        android:scaleType="centerCrop"
+        android:background="#00000000"/>
     <ImageButton
         android:id="@+id/click_exit"
         android:layout_width="80dp"
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
-        android:src="@android:drawable/btn_default"/>
+        android:src="@drawable/exit"
+        android:scaleType="centerCrop"
+        android:background="#00000000"/>
 </LinearLayout>

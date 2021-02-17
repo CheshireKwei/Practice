@@ -6,7 +6,9 @@
         android:id="@+id/click_back"
         android:layout_width="40dp"
         android:layout_height="30dp"
-        android:src="@android:drawable/btn_default"/>
+        android:src="@drawable/back"
+        android:scaleType="centerCrop"
+        android:background="#00000000"/>
     <TextView
         android:id="@+id/show_title"
         android:layout_width="match_parent"
@@ -14,7 +16,8 @@
         android:layout_below="@id/click_back"
         android:gravity="center"
         android:text="复习结果"
-        android:textSize="28sp"/>
+        android:textSize="28sp"
+        android:textColor="#8b8d8f"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="500dp"

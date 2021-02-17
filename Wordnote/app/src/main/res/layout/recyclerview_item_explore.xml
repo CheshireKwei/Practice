@@ -28,13 +28,17 @@
         android:text="默认"
         android:textSize="15sp"/>
     <ImageButton
-        android:id="@+id/click_show_time"
+        android:id="@+id/click_more"
         android:layout_width="40dp"
         android:layout_height="match_parent"
-        android:src="@android:drawable/btn_default"/>
+        android:src="@drawable/more"
+        android:scaleType="centerCrop"
+        android:background="#00000000"/>
     <ImageButton
         android:id="@+id/click_delete"
         android:layout_width="40dp"
         android:layout_height="match_parent"
-        android:src="@android:drawable/btn_default" />
+        android:src="@drawable/delete"
+        android:scaleType="centerCrop"
+        android:background="#00000000"/>
 </LinearLayout>

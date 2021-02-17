@@ -1,7 +1,6 @@
 package name.kyaru.wordnote;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,10 +22,10 @@ public class ReviewActivity extends AppCompatActivity {
     public static final int MODE_LAST_WORDS = 0;
     public static final int MODE_RAND_WORDS = 1;
     private ImageButton clickBack;
-    private ImageView showResultImg;
     private TextView showEn;
     private TextView showMessage;
     private TextView showRetainNum;
+    private TextView showAnswer;
     private Button clickNext;
     private Button clickMean1;
     private Button clickMean2;
@@ -36,7 +35,7 @@ public class ReviewActivity extends AppCompatActivity {
     private List<String> selections;
     private String anwser;
     private int beginIndex = 0;
-    private int nextIndex = 0;
+    private int nextIndex = -1;
     private int mode;
     private int correctNum = 0;
     private int reviewTotalNum = 0;
@@ -93,7 +92,7 @@ public class ReviewActivity extends AppCompatActivity {
         clickMean2 = findViewById(R.id.click_mean_2);
         clickMean3 = findViewById(R.id.click_mean_3);
         clickNext = findViewById(R.id.click_next);
-        showResultImg = findViewById(R.id.show_result_img);
+        showAnswer = findViewById(R.id.show_answer);
         showEn = findViewById(R.id.show_en);
         showRetainNum = findViewById(R.id.show_retain_num);
 
@@ -110,7 +109,6 @@ public class ReviewActivity extends AppCompatActivity {
     private void layFirstSelection() {
         if(words != null){
             beginIndex = BasicTool.generateRandNumber(words.size()); //获取一个随机的单词索引
-            nextIndex = beginIndex + 1;
             selections = sGenerator.generate(words, 3, beginIndex, true);
             anwser = words.get(beginIndex).getCn();
             reviewTotalNum++; //增加复习总数
@@ -118,9 +116,8 @@ public class ReviewActivity extends AppCompatActivity {
             //部署选项
             showEn.setText(words.get(beginIndex).getEn()); //设置英文
             showRetainNum.setText("剩余" + (words.size() - reviewTotalNum) + "个");
+            changeNextIndex();
             applySelection();
-        }else{ //没有单词则跳转到结算界面并显示信息
-            clearing();
         }
     }
 
@@ -136,31 +133,43 @@ public class ReviewActivity extends AppCompatActivity {
 
     //部署下一个选项
     private void layNextSelection(){
-        if(nextIndex == words.size()){//重置
-            nextIndex = 0;
-        }
         if(nextIndex == beginIndex) { //单词遍历完毕后结算
             clearing();
             return;
         }
         anwser = words.get(nextIndex).getCn(); //保留答案
-        selections = sGenerator.generate(words, 3, nextIndex++, true); //随机生成两个其他单词的中文
+        selections = sGenerator.generate(words, 3, nextIndex, true); //随机生成两个其他单词的中文
         reviewTotalNum++; //增加复习总数
 
         //部署选项
         showEn.setText(words.get(nextIndex - 1).getEn()); //设置英文
-        showRetainNum.setText("剩余" + (words.size() - reviewTotalNum) + "个");
+        showRetainNum.setText("剩余" + (words.size() - reviewTotalNum) + "个"); //设置剩余个数
+        changeNextIndex(); //改变nextIndex到下一个单词
         applySelection();
+    }
+
+    private void changeNextIndex(){
+        if(nextIndex == -1){ //为nextIndex初始化
+            nextIndex = beginIndex + 1;
+        }
+        if(nextIndex < words.size()){ //由于beginIndex可能是边界，所以当nextIndex小于单词数目时才递增
+            nextIndex++;
+        }
+        nextIndex = nextIndex % words.size(); //限制大小
     }
 
     //核对选项
     private void checkSelection(Button btn){
         afterPick = true; //选择后不可再选
         if(btn.getText().equals(anwser)){
-            btn.setBackgroundColor(Color.GREEN);
+            btn.setBackgroundResource(R.drawable.true_selection_bg);
+            showAnswer.setText("正确");
+            showAnswer.setTextColor(Color.GREEN);
             correctNum++; //增加正确数
         }else{
-            btn.setBackgroundColor(Color.RED);
+            btn.setBackgroundResource(R.drawable.false_selection_bg);
+            showAnswer.setText("应选择“" + anwser + "”");
+            showAnswer.setTextColor(Color.RED);
         }
     }
 
@@ -172,14 +181,15 @@ public class ReviewActivity extends AppCompatActivity {
         clickMean3.setText(selections.get(2));
 
         //还原界面
-        clickMean1.setBackgroundColor(Color.WHITE);
-        clickMean2.setBackgroundColor(Color.WHITE);
-        clickMean3.setBackgroundColor(Color.WHITE);
+        clickMean1.setBackgroundResource(R.drawable.not_chose_bg);
+        clickMean2.setBackgroundResource(R.drawable.not_chose_bg);;
+        clickMean3.setBackgroundResource(R.drawable.not_chose_bg);
 
-        //还原状态
+        //还原状态S
         afterPick = false;
 
-        if(nextIndex == beginIndex){ //如果下一次即将结算，则改变按钮文字
+        //如果下一次即将结算，则改变按钮文字
+        if(nextIndex == beginIndex){
             clickNext.setText("结算");
         }
     }

@@ -7,7 +7,9 @@
         android:id="@+id/click_back"
         android:layout_width="42dp"
         android:layout_height="32dp"
-        android:src="@android:drawable/btn_default"/>
+        android:src="@drawable/back"
+        android:scaleType="centerCrop"
+        android:background="#00000000"/>
     <TextView
         android:id="@+id/show_title"
         android:layout_width="match_parent"
@@ -15,7 +17,8 @@
         android:layout_below="@id/click_back"
         android:gravity="center"
         android:text="单词复习"
-        android:textSize="28sp"/>
+        android:textSize="28sp"
+        android:textColor="#8b8d8f"/>
     <TextView
         android:id="@+id/show_en"
         android:layout_width="wrap_content"
@@ -24,7 +27,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
         android:text="Hello"
-        android:textSize="28sp"/>
+        android:textSize="28sp"
+        android:textAllCaps="false"/>
     <LinearLayout
         android:id="@+id/no_effect_1"
         android:layout_width="match_parent"
@@ -38,21 +42,27 @@
             android:layout_width="120dp"
             android:layout_height="90dp"
             android:text="你好"
-            android:textSize="15sp"/>
+            android:textSize="15sp"
+            android:background="@drawable/not_chose_bg"
+            android:textAllCaps="false"/>
         <Button
             android:id="@+id/click_mean_2"
             android:layout_width="120dp"
             android:layout_height="90dp"
             android:layout_marginLeft="20dp"
             android:text="世界"
-            android:textSize="15sp"/>
+            android:textSize="15sp"
+            android:background="@drawable/not_chose_bg"
+            android:textAllCaps="false"/>
         <Button
             android:id="@+id/click_mean_3"
             android:layout_width="120dp"
             android:layout_height="90dp"
             android:layout_marginLeft="20dp"
             android:text="编程"
-            android:textSize="15sp"/>
+            android:textSize="15sp"
+            android:background="@drawable/not_chose_bg"
+            android:textAllCaps="false"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/no_effect_2"
@@ -61,11 +71,13 @@
         android:layout_marginTop="20dp"
         android:layout_below="@id/no_effect_1"
         android:orientation="vertical">
-        <ImageView
-            android:id="@+id/show_result_img"
+        <TextView
+            android:id="@+id/show_answer"
             android:layout_width="80dp"
             android:layout_height="60dp"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="15sp" />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/no_effect_3"
@@ -80,7 +92,8 @@
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
             android:text="下一个"
-            android:textSize="15sp"/>
+            android:textSize="15sp"
+            android:background="@drawable/not_chose_bg"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

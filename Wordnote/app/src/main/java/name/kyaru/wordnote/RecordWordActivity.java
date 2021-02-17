@@ -73,7 +73,8 @@ public class RecordWordActivity extends AppCompatActivity {
             }
         }
 
-        private void search(){ //搜索单词
+        //搜索单词
+        private void search(){
             String en = null;
             String cn = null;
             int mode = WordDao.MODE_EN_OR_CN;
@@ -123,7 +124,8 @@ public class RecordWordActivity extends AppCompatActivity {
             startActivity(launcher);
         }
 
-        private void update(){ //更新单词
+        //更新单词
+        private void update(){
             String en = inputEn.getText().toString();
             String cn = inputCn.getText().toString();
 
@@ -132,12 +134,25 @@ public class RecordWordActivity extends AppCompatActivity {
                 return;
             }
 
-            //todo
-            WordDao.update(new Word(en, cn, System.currentTimeMillis()), WordDao.MODE_EN_AND_CN, WordDao.TABLE_WORDS);
-            WordDao.update(new Word(en, cn, System.currentTimeMillis()), WordDao.MODE_EN_AND_CN, WordDao.TABLE_LAST_WORDS);
+            //todo 显示警告弹窗
+
+            //根据英语更新单词
+            int updateNum = 0;
+            String msg = null;
+            updateNum =  WordDao.update(new Word(en, cn, System.currentTimeMillis()), WordDao.MODE_ONLY_EN, WordDao.TABLE_WORDS);
+            updateNum +=  WordDao.update(new Word(en, cn, System.currentTimeMillis()), WordDao.MODE_ONLY_EN, WordDao.TABLE_LAST_WORDS);
+
+            //根据更新数目提示
+            if(updateNum > 0){
+                msg = "更新完毕";
+            }else{
+                msg = "更新失败，该单词可能不存在";
+            }
+            Toast.makeText(RecordWordActivity.this, msg, Toast.LENGTH_SHORT).show();
         }
 
-        private void record(){ //记录单词
+        //记录单词
+        private void record(){
             String en = inputEn.getText().toString();
             String cn = inputCn.getText().toString();
 
@@ -145,10 +160,10 @@ public class RecordWordActivity extends AppCompatActivity {
                 Toast.makeText(RecordWordActivity.this, "中英文不能为空", Toast.LENGTH_SHORT).show();
                 return;
             }
-            //todo 对单词是否重复进行检测
             Word data = new Word(en, cn, System.currentTimeMillis());
+            //todo 对单词是否重复进行检测
 
-            //todo
+
             boolean b = WordDao.insert(data, WordDao.TABLE_LAST_WORDS);
             if(b){
                 Toast.makeText(RecordWordActivity.this, "已记录", Toast.LENGTH_SHORT).show();
@@ -157,7 +172,7 @@ public class RecordWordActivity extends AppCompatActivity {
     }
 
     private boolean checkInput(int mode){
-        //todo
+        //todo 检查输入字符数，是否符合模式
 
         return false;
     }

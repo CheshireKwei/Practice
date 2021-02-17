@@ -44,7 +44,7 @@ public class WordAdapter extends RecyclerView.Adapter {
         //设置监听
         View.OnClickListener onClickImpl = (v) -> {
             switch (v.getId()) {
-                case R.id.click_show_time:
+                case R.id.click_more:
                     Toast.makeText(context, "记录于" + BasicTool.toTimeString(words.get(position).getRecordTime()), Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.click_delete:
@@ -82,7 +82,7 @@ public class WordAdapter extends RecyclerView.Adapter {
             showId = itemView.findViewById(R.id.show_id);
             showEn = itemView.findViewById(R.id.show_en);
             showCn = itemView.findViewById(R.id.show_cn);
-            clickShowTime = itemView.findViewById(R.id.click_show_time);
+            clickShowTime = itemView.findViewById(R.id.click_more);
             clickDelete = itemView.findViewById(R.id.click_delete);
         }
     }

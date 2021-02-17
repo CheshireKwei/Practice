@@ -42,7 +42,7 @@ public class ResultActivity extends AppCompatActivity {
         showHistCrtRate.setText(ReviewPreference.hisCorrectRate + "%/" +ReviewPreference.hisCorrectRateTotalNum);
 
         //保存历史记录
-        saveHistory(datas[1], datas[2], correctRate);
+        saveHistory(datas[1], correctRate, datas[2]);
     }
 
     //保存历史

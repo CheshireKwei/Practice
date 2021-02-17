@@ -5,7 +5,9 @@ import android.view.View;
 import android.widget.ImageButton;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.List;
+
 import name.kyaru.wordnote.dao.WordDao;
 import name.kyaru.wordnote.datastruct.ReviewPreference;
 import name.kyaru.wordnote.datastruct.Word;
@@ -20,6 +22,7 @@ public class MainPageActivity extends AppCompatActivity {
     private ImageButton clickReview;
     private ImageButton clickRandReview;
     private DatabaseCreator creator;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
