@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
 
+import name.kyaru.wordnote.bgm.EffectManager;
 import name.kyaru.wordnote.dao.WordDao;
 import name.kyaru.wordnote.datastruct.ReviewPreference;
 import name.kyaru.wordnote.datastruct.Word;
@@ -93,11 +94,13 @@ public class MainPageActivity extends AppCompatActivity {
                     startActivity(launcher);
                     break;
                 case R.id.click_review_word:
+                    EffectManager.getInstance().play(EffectManager.TYPE_BEGIN); //播放音效
                     launcher = new Intent(MainPageActivity.this, ReviewActivity.class);
                     launcher.putExtra(ExploreActivity.KEY_MODE, ReviewActivity.MODE_LAST_WORDS); //以LAST_WORDS模式启动ExploreActivity，复习前一天的单词
                     startActivity(launcher);
                     break;
                 case R.id.click_review_rand_word:
+                    EffectManager.getInstance().play(EffectManager.TYPE_BEGIN); //播放音效
                     launcher = new Intent(MainPageActivity.this, ReviewActivity.class);
                     launcher.putExtra(ReviewActivity.KEY_MODE, ReviewActivity.MODE_RAND_WORDS); //以RAND_WORDS模式启动ExploreActivity，随机复习以前的单词
                     startActivity(launcher);
@@ -116,5 +119,6 @@ public class MainPageActivity extends AppCompatActivity {
         ReviewPreference.savePreference(this);
         creator.close();
         WordDao.setDatabase(null);
+        EffectManager.getInstance().release();
     }
 }

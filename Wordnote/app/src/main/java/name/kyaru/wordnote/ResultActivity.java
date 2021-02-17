@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import name.kyaru.wordnote.bgm.EffectManager;
 import name.kyaru.wordnote.datastruct.ReviewPreference;
 
 /* 用于显示单词复习的结果 */
@@ -29,6 +30,18 @@ public class ResultActivity extends AppCompatActivity {
         displayMessage();
     }
 
+    private void initView(){
+        clickBack = findViewById(R.id.click_back);
+        showCorrectNum = findViewById(R.id.show_correct_num);
+        showHistCrtNum = findViewById(R.id.show_history_correct_num);
+        showCorrectRate = findViewById(R.id.show_correct_rate);
+        showHistCrtRate = findViewById(R.id.show_history_correct_rate);
+
+        //设置监听
+        OnClickListenerImpl  onClickImpl = new OnClickListenerImpl();
+        clickBack.setOnClickListener(onClickImpl);
+    }
+
     //显示信息
     private void displayMessage() {
         //计算正确率
@@ -43,6 +56,18 @@ public class ResultActivity extends AppCompatActivity {
         showHistCrtNum.setText(ReviewPreference.hisCorrectNum + "/" + ReviewPreference.hisCorrectTotalNum);
         showCorrectRate.setText(correctRate + "%/" + datas[2]);
         showHistCrtRate.setText(ReviewPreference.hisCorrectRate + "%/" +ReviewPreference.hisCorrectRateTotalNum);
+
+        //播放结果音效
+        playResultMusic(correctRate);
+    }
+
+    //结果音效
+    private void playResultMusic(int correctRate) {
+        if(correctRate >= 60){ //正确率在60%以上时
+            EffectManager.getInstance().play(EffectManager.TYPE_VICTORY);
+        }else{
+            EffectManager.getInstance().play(EffectManager.TYPE_REGRET);
+        }
     }
 
     //保存历史
@@ -81,18 +106,6 @@ public class ResultActivity extends AppCompatActivity {
         datas[2] = origin.getIntExtra(KEY_TOTAL_COUNT, 0);
 
         return datas;
-    }
-
-    private void initView(){
-        clickBack = findViewById(R.id.click_back);
-        showCorrectNum = findViewById(R.id.show_correct_num);
-        showHistCrtNum = findViewById(R.id.show_history_correct_num);
-        showCorrectRate = findViewById(R.id.show_correct_rate);
-        showHistCrtRate = findViewById(R.id.show_history_correct_rate);
-
-        //设置监听
-        OnClickListenerImpl  onClickImpl = new OnClickListenerImpl();
-        clickBack.setOnClickListener(onClickImpl);
     }
 
     private class OnClickListenerImpl implements View.OnClickListener {

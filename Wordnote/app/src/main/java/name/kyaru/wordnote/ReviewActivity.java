@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
+import name.kyaru.wordnote.bgm.EffectManager;
 import name.kyaru.wordnote.dao.WordDao;
 import name.kyaru.wordnote.datastruct.Word;
 import name.kyaru.wordnote.utils.AbsSelectionGenerator;
@@ -40,6 +41,7 @@ public class ReviewActivity extends AppCompatActivity {
     private int correctNum = 0;
     private int reviewTotalNum = 0;
     private boolean afterPick = false;
+    private boolean onLastOne = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,8 +119,6 @@ public class ReviewActivity extends AppCompatActivity {
             showEn.setText(words.get(beginIndex).getEn()); //设置英文
             showRetainNum.setText("剩余" + (words.size() - reviewTotalNum) + "个");
             changeNextIndex();
-
-            System.out.println("next=" + nextIndex + " begin=" + beginIndex);
             applySelection();
         }
     }
@@ -147,8 +147,6 @@ public class ReviewActivity extends AppCompatActivity {
         showEn.setText(words.get(nextIndex).getEn()); //设置英文
         showRetainNum.setText("剩余" + (words.size() - reviewTotalNum) + "个"); //设置剩余个数
         changeNextIndex(); //改变nextIndex到下一个单词
-
-        System.out.println("next2=" + nextIndex + " begin2=" + beginIndex);
         applySelection();
     }
 
@@ -171,10 +169,12 @@ public class ReviewActivity extends AppCompatActivity {
             showAnswer.setText("正确");
             showAnswer.setTextColor(Color.GREEN);
             correctNum++; //增加正确数
+            EffectManager.getInstance().play(EffectManager.TYPE_PRAISE); //播放称赞音效
         }else{
             btn.setBackgroundResource(R.drawable.false_selection_bg);
             showAnswer.setText("应选择“" + anwser + "”");
             showAnswer.setTextColor(Color.RED);
+            EffectManager.getInstance().play(EffectManager.TYPE_LOSE); //播放失败音效
         }
     }
 
@@ -228,6 +228,10 @@ public class ReviewActivity extends AppCompatActivity {
                     break;
                 case R.id.click_next: //下一个
                     layNextSelection();
+                    if(onLastOne){
+                        onLastOne = false;
+                        EffectManager.getInstance().play(EffectManager.TYPE_LAST); //播放最后一个音效
+                    }
                     break;
             }
         }

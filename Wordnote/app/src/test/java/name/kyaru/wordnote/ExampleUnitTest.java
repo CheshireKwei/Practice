@@ -1,8 +1,12 @@
 package name.kyaru.wordnote;
 
 import org.junit.Test;
+
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
+
+import name.kyaru.wordnote.bgm.EffectManager;
 import name.kyaru.wordnote.datastruct.Word;
 import name.kyaru.wordnote.utils.BasicTool;
 import name.kyaru.wordnote.utils.CnSelectionGenerator;
@@ -23,6 +27,7 @@ public class ExampleUnitTest {
 
     @Test
     public void test(){
-        System.out.println(BasicTool.isSameDay(1613472682769L, 1623972682769L));
+        EffectManager em = new EffectManager();
+        em.play();
     }
 }
