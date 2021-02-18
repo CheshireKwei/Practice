@@ -112,6 +112,10 @@ public class EffectManager {
         sPool.release();
     }
 
+    public boolean isDoNotPlay(){
+        return doNotPlay;
+    }
+
     public void setDoNotPlay(boolean b){
         this.doNotPlay = b;
     }

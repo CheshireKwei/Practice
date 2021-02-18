@@ -5,9 +5,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.List;
-
 import name.kyaru.wordnote.bgm.EffectManager;
 import name.kyaru.wordnote.dao.WordDao;
 import name.kyaru.wordnote.datastruct.ReviewPreference;
@@ -22,6 +20,7 @@ public class MainPageActivity extends AppCompatActivity {
     private ImageButton clickExploreAll;
     private ImageButton clickReview;
     private ImageButton clickRandReview;
+    private ImageButton clickSetting;
     private DatabaseCreator creator;
 
     @Override
@@ -69,15 +68,17 @@ public class MainPageActivity extends AppCompatActivity {
         clickReview = findViewById(R.id.click_review_word);
         clickRandReview = findViewById(R.id.click_review_rand_word);
         clickExploreAll = findViewById(R.id.click_explore_all);
+        clickSetting = findViewById(R.id.click_setting);
         clickExit = findViewById(R.id.click_exit);
 
         //添加监听
-        OnClickListenerImpl ocImpl = new OnClickListenerImpl();
-        clickRecord.setOnClickListener(ocImpl);
-        clickReview.setOnClickListener(ocImpl);
-        clickRandReview.setOnClickListener(ocImpl);
-        clickExploreAll.setOnClickListener(ocImpl);
-        clickExit.setOnClickListener(ocImpl); //结束所有活动，完全退出
+        OnClickListenerImpl onClickImpl = new OnClickListenerImpl();
+        clickRecord.setOnClickListener(onClickImpl);
+        clickReview.setOnClickListener(onClickImpl);
+        clickRandReview.setOnClickListener(onClickImpl);
+        clickExploreAll.setOnClickListener(onClickImpl);
+        clickSetting.setOnClickListener(onClickImpl);
+        clickExit.setOnClickListener(onClickImpl);
     }
 
     private class OnClickListenerImpl implements View.OnClickListener{
@@ -105,6 +106,10 @@ public class MainPageActivity extends AppCompatActivity {
                     EffectManager.getInstance().play(EffectManager.TYPE_BEGIN); //播放音效
                     launcher = new Intent(MainPageActivity.this, ReviewActivity.class);
                     launcher.putExtra(ReviewActivity.KEY_MODE, ReviewActivity.MODE_RAND_WORDS); //以RAND_WORDS模式启动ExploreActivity，随机复习以前的单词
+                    startActivity(launcher);
+                    break;
+                case R.id.click_setting:
+                    launcher = new Intent(MainPageActivity.this, SettingActivity.class);
                     startActivity(launcher);
                     break;
                 case R.id.click_exit:
