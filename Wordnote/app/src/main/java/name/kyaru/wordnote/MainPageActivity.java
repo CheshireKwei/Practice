@@ -37,10 +37,12 @@ public class MainPageActivity extends AppCompatActivity {
     private void dataMove() {
         if(!isSameDay()){ //不是同一天，移动单词
             List<Word> words = WordDao.query(null, WordDao.MODE_ALL, WordDao.TABLE_LAST_WORDS);
-            for(Word w : words){
-                WordDao.insert(w, WordDao.TABLE_WORDS); //将前一天的单词移动到常驻表
+            if(words != null) { //如果前一天没有单词，则不移动
+                for (Word w : words) {
+                    WordDao.insert(w, WordDao.TABLE_WORDS); //将前一天的单词移动到常驻表
+                }
+                WordDao.delete(null, WordDao.MODE_ALL, WordDao.TABLE_LAST_WORDS); //删除所有单词
             }
-            WordDao.delete(null, WordDao.MODE_ALL, WordDao.TABLE_LAST_WORDS); //删除所有单词
         }
     }
 
@@ -115,10 +117,12 @@ public class MainPageActivity extends AppCompatActivity {
     //关闭数据库，保存首选项
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         ReviewPreference.savePreference(this);
         creator.close();
         WordDao.setDatabase(null);
         EffectManager.getInstance().release();
+        super.onDestroy();
+        int pid = android.os.Process.myPid(); //获取进程pid
+        android.os.Process.killProcess(pid); //杀死进程
     }
 }

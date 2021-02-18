@@ -29,13 +29,15 @@
             android:layout_width="200dp"
             android:layout_height="40dp"
             android:inputType="text"
-            android:hint="输入英文"/>
+            android:hint="输入英文"
+            android:selectAllOnFocus="true"/>
         <EditText
             android:id="@+id/input_cn"
             android:layout_width="200dp"
             android:layout_height="40dp"
             android:inputType="text"
-            android:hint="输入中文"/>
+            android:hint="输入中文"
+            android:selectAllOnFocus="true"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="80dp"

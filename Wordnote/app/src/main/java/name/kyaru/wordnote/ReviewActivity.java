@@ -197,6 +197,7 @@ public class ReviewActivity extends AppCompatActivity {
         //如果下一次即将结算，则改变按钮文字
         if(nextIndex == beginIndex){
             clickNext.setText("结算");
+            onLastOne = true;
         }
     }
 
