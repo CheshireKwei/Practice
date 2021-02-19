@@ -1,11 +1,9 @@
 package name.kyaru.wordnote;
 
 import org.junit.Test;
-
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
-
 import name.kyaru.wordnote.bgm.EffectManager;
 import name.kyaru.wordnote.datastruct.Word;
 import name.kyaru.wordnote.utils.BasicTool;
@@ -27,7 +25,6 @@ public class ExampleUnitTest {
 
     @Test
     public void test(){
-        EffectManager em = new EffectManager();
-        em.play();
+
     }
 }

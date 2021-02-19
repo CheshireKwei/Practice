@@ -1,12 +1,41 @@
 package name.kyaru.wordnote.utils;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.os.Handler;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
+
+import name.kyaru.wordnote.ExploreActivity;
+import name.kyaru.wordnote.dao.WordDao;
+import name.kyaru.wordnote.datastruct.Word;
 
 /* 通用工具 */
 public class BasicTool {
+    public static final int LOCATION_DOWNLOADS = 0;
     private static final Random random = new Random();
 
     public static String toTimeString(long time){
@@ -36,5 +65,28 @@ public class BasicTool {
         System.out.println(isSameDay(d1, d2));
 
         return isSameDay(d1, d2);
+    }
+
+    public static void showMessage(Context context, String msg, int showLength){
+        Toast.makeText(context, msg, showLength).show();
+    }
+
+    public static JSONArray parseToJSONArray(List<Word> words) throws JSONException {
+        JSONArray jsonArray = new JSONArray();
+        for (Word w : words) {
+            JSONObject jo = new JSONObject();
+            jo.put(WordDao.FIELD_EN, w.getEn());
+            jo.put(WordDao.FIELD_CN, w.getCn());
+            jo.put(WordDao.FIELD_TIME, w.getRecordTime());
+            jsonArray.put(jo);
+        }
+
+        return jsonArray;
+    }
+
+    public static List<Word> parseToWord(JSONArray jArray){
+        //todo
+
+        return null;
     }
 }

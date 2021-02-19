@@ -148,6 +148,11 @@ public class ReviewActivity extends AppCompatActivity {
         showRetainNum.setText("剩余" + (words.size() - reviewTotalNum) + "个"); //设置剩余个数
         changeNextIndex(); //改变nextIndex到下一个单词
         applySelection();
+
+        //如果下一个选项是最后一个，播放音效
+        if(nextIndex == beginIndex){
+            onLastOne = true;
+        }
     }
 
     private void changeNextIndex(){
@@ -197,7 +202,6 @@ public class ReviewActivity extends AppCompatActivity {
         //如果下一次即将结算，则改变按钮文字
         if(nextIndex == beginIndex){
             clickNext.setText("结算");
-            onLastOne = true;
         }
     }
 

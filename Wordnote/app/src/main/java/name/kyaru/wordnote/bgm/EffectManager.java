@@ -5,8 +5,6 @@ import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
-import android.util.Log;
-
 import java.util.HashMap;
 import java.util.Map;
 import name.kyaru.wordnote.R;
@@ -19,7 +17,7 @@ public class EffectManager {
     public static final int TYPE_PRAISE = 3;
     public static final int TYPE_REGRET = 4;
     public static final int TYPE_VICTORY = 5;
-    private static final int MUSIC_NUM = 16;
+    private static final int MUSIC_NUM = 19;
     private static final int NUM_TYPE = 6;
     private static EffectManager singleton = null;
     private static int[][] resourceIds = null;
@@ -33,6 +31,7 @@ public class EffectManager {
     static {
         resourceIds = new int[MUSIC_NUM][NUM_TYPE];
 
+        //茜里
         resourceIds[0][0] = R.raw.akari_begin;
         resourceIds[0][1] = R.raw.akari_last;
         resourceIds[0][2] = R.raw.akari_lose;
@@ -40,6 +39,7 @@ public class EffectManager {
         resourceIds[0][4] = R.raw.akari_regret;
         resourceIds[0][5] = R.raw.akari_victory;
 
+        //可可萝
         resourceIds[1][0] = R.raw.kokkoro_begin;
         resourceIds[1][1] = R.raw.kokkoro_last;
         resourceIds[1][2] = R.raw.kokkoro_lose;
@@ -47,6 +47,7 @@ public class EffectManager {
         resourceIds[1][4] = R.raw.kokkoro_regret;
         resourceIds[1][5] = R.raw.kokkoro_victory;
 
+        //佩可莉姆
         resourceIds[2][0] = R.raw.pecorine_begin;
         resourceIds[2][1] = R.raw.pecorine_last;
         resourceIds[2][2] = R.raw.pecorine_lose;
@@ -54,6 +55,7 @@ public class EffectManager {
         resourceIds[2][4] = R.raw.pecorine_regret;
         resourceIds[2][5] = R.raw.pecorine_victory;
 
+        //凯露
         resourceIds[3][0] = R.raw.kyaru_begin;
         resourceIds[3][1] = R.raw.kyaru_last;
         resourceIds[3][2] = R.raw.kyaru_lose;
@@ -61,6 +63,7 @@ public class EffectManager {
         resourceIds[3][4] = R.raw.kyaru_regret;
         resourceIds[3][5] = R.raw.kyaru_victory;
 
+        //宫子
         resourceIds[4][0] = R.raw.miyako_begin;
         resourceIds[4][1] = R.raw.miyako_last;
         resourceIds[4][2] = R.raw.miyako_lose;
@@ -68,12 +71,118 @@ public class EffectManager {
         resourceIds[4][4] = R.raw.miyako_regret;
         resourceIds[4][5] = R.raw.miyako_victory;
 
+        //真步
         resourceIds[5][0] = R.raw.maho_begin;
         resourceIds[5][1] = R.raw.maho_last;
         resourceIds[5][2] = R.raw.maho_lose;
         resourceIds[5][3] = R.raw.maho_praise;
         resourceIds[5][4] = R.raw.maho_regret;
         resourceIds[5][5] = R.raw.maho_victory;
+
+        //唯一神
+        resourceIds[6][0] = R.raw.kyaru2_begin;
+        resourceIds[6][1] = R.raw.kyaru2_last;
+        resourceIds[6][2] = R.raw.kyaru2_lose;
+        resourceIds[6][3] = R.raw.kyaru2_praise;
+        resourceIds[6][4] = R.raw.kyaru2_regret;
+        resourceIds[6][5] = R.raw.kyaru2_victory;
+
+        //初音
+        resourceIds[7][0] = R.raw.hatsune_begin;
+        resourceIds[7][1] = R.raw.hatsune_last;
+        resourceIds[7][2] = R.raw.hatsune_lose;
+        resourceIds[7][3] = R.raw.hatsune_praise;
+        resourceIds[7][4] = R.raw.hatsune_regret;
+        resourceIds[7][5] = R.raw.hatsune_victory;
+
+        //春nnk
+        resourceIds[8][0] = R.raw.neneka_begin;
+        resourceIds[8][1] = R.raw.neneka_last;
+        resourceIds[8][2] = R.raw.neneka_lose;
+        resourceIds[8][3] = R.raw.neneka_praise;
+        resourceIds[8][4] = R.raw.neneka_regret;
+        resourceIds[8][5] = R.raw.neneka_victory;
+
+        //日和
+        resourceIds[9][0] = R.raw.hiyori_begin;
+        resourceIds[9][1] = R.raw.hiyori_last;
+        resourceIds[9][2] = R.raw.hiyori_lose;
+        resourceIds[9][3] = R.raw.hiyori_praise;
+        resourceIds[9][4] = R.raw.hiyori_regret;
+        resourceIds[9][5] = R.raw.hiyori_victory;
+
+        //镜华
+        resourceIds[10][0] = R.raw.kyoka_begin;
+        resourceIds[10][1] = R.raw.kyoka_last;
+        resourceIds[10][2] = R.raw.kyoka_lose;
+        resourceIds[10][3] = R.raw.kyoka_praise;
+        resourceIds[10][4] = R.raw.kyoka_regret;
+        resourceIds[10][5] = R.raw.kyoka_victory;
+
+        //望
+        resourceIds[11][0] = R.raw.nozomi_begin;
+        resourceIds[11][1] = R.raw.nozomi_last;
+        resourceIds[11][2] = R.raw.nozomi_lose;
+        resourceIds[11][3] = R.raw.nozomi_praise;
+        resourceIds[11][4] = R.raw.nozomi_regret;
+        resourceIds[11][5] = R.raw.nozomi_victory;
+        
+        //妹弓
+        resourceIds[12][0] = R.raw.rino_begin;
+        resourceIds[12][1] = R.raw.rino_last;
+        resourceIds[12][2] = R.raw.rino_lose;
+        resourceIds[12][3] = R.raw.rino_praise;
+        resourceIds[12][4] = R.raw.rino_regret;
+        resourceIds[12][5] = R.raw.rino_victory;
+        
+        //妹龙
+        resourceIds[13][0] = R.raw.shefi_begin;
+        resourceIds[13][1] = R.raw.shefi_last;
+        resourceIds[13][2] = R.raw.shefi_lose;
+        resourceIds[13][3] = R.raw.shefi_praise;
+        resourceIds[13][4] = R.raw.shefi_regret;
+        resourceIds[13][5] = R.raw.shefi_victory;
+        
+        //栞
+        resourceIds[14][0] = R.raw.shiori_begin;
+        resourceIds[14][1] = R.raw.shiori_last;
+        resourceIds[14][2] = R.raw.shiori_lose;
+        resourceIds[14][3] = R.raw.shiori_praise;
+        resourceIds[14][4] = R.raw.shiori_regret;
+        resourceIds[14][5] = R.raw.shiori_victory;
+        
+        //姐姐
+        resourceIds[15][0] = R.raw.shizuru_begin;
+        resourceIds[15][1] = R.raw.shizuru_last;
+        resourceIds[15][2] = R.raw.shizuru_lose;
+        resourceIds[15][3] = R.raw.shizuru_praise;
+        resourceIds[15][4] = R.raw.shizuru_regret;
+        resourceIds[15][5] = R.raw.shizuru_victory;
+        
+        //猫剑
+        resourceIds[16][0] = R.raw.tamaki_begin;
+        resourceIds[16][1] = R.raw.tamaki_last;
+        resourceIds[16][2] = R.raw.tamaki_lose;
+        resourceIds[16][3] = R.raw.tamaki_praise;
+        resourceIds[16][4] = R.raw.tamaki_regret;
+        resourceIds[16][5] = R.raw.tamaki_victory;
+
+        //姐法
+        resourceIds[17][0] = R.raw.yori_begin;
+        resourceIds[17][1] = R.raw.yori_last;
+        resourceIds[17][2] = R.raw.yori_lose;
+        resourceIds[17][3] = R.raw.yori_praise;
+        resourceIds[17][4] = R.raw.yori_regret;
+        resourceIds[17][5] = R.raw.yori_victory;
+
+        //对不起
+        resourceIds[18][0] = R.raw.yui_begin;
+        resourceIds[18][1] = R.raw.yui_last;
+        resourceIds[18][2] = R.raw.yui_lose;
+        resourceIds[18][3] = R.raw.yui_praise;
+        resourceIds[18][4] = R.raw.yui_regret;
+        resourceIds[18][5] = R.raw.yui_victory;
+        
     }
 
     private EffectManager(Context context, Callback callback){
@@ -122,7 +231,7 @@ public class EffectManager {
 
     //随机加载音效
     private void loadAudio(){
-        int role = BasicTool.generateRandNumber(6);
+        int role = BasicTool.generateRandNumber(MUSIC_NUM);
         idMapping.put(TYPE_BEGIN, sPool.load(context, resourceIds[role][TYPE_BEGIN], 1));
         idMapping.put(TYPE_LAST, sPool.load(context, resourceIds[role][TYPE_LAST], 1));
         idMapping.put(TYPE_LOSE, sPool.load(context, resourceIds[role][TYPE_LOSE], 1));

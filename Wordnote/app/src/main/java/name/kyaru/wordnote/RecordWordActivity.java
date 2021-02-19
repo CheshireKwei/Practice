@@ -7,18 +7,21 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import name.kyaru.wordnote.dao.WordDao;
 import name.kyaru.wordnote.datastruct.Word;
+import name.kyaru.wordnote.utils.BasicTool;
 
 /* 记录单词 */
 public class RecordWordActivity extends AppCompatActivity {
     private static final int LIMIT_CHAR_NUM = 15;
-    private static final int MODE_CHECK_EN = 0;
-    private static final int MODE_CHECK_CN = 1;
-    private static final int MODE_CHECK_ANY = 2;
-    private static final int MODE_CHECK_ALL = 3;
+    private static final int MODE_CHECK_ONLY_EN = 0; //英文是否为空
+    private static final int MODE_CHECK_ONLY_CN = 1; //中文是否为空
+    private static final int MODE_CHECK_EN_OR_CN = 2; //英文或中文是否一个不为空
+    private static final int MODE_CHECK_EN_AND_CN = 3; //中英文都不为空
     private ImageButton clickBack;
     private EditText inputEn;
     private EditText inputCn;
@@ -75,41 +78,31 @@ public class RecordWordActivity extends AppCompatActivity {
 
         //搜索单词
         private void search(){
-            String en = null;
-            String cn = null;
+            String en = inputEn.getText().toString();;
+            String cn = inputCn.getText().toString();
             int mode = WordDao.MODE_EN_OR_CN;
 
             switch (checkedId){
                 case R.id.single_only_en: //仅匹配英文
-                    en = inputEn.getText().toString();
-                    if(en.equals("")){
-                        Toast.makeText(RecordWordActivity.this, "英文不能为空", Toast.LENGTH_SHORT).show();
+                    if(!checkInputCorrect(en, cn, MODE_CHECK_ONLY_EN)){
                         return;
                     }
                     mode = WordDao.MODE_ONLY_EN;
                     break;
                 case R.id.single_only_cn: //仅匹配中文
-                    cn = inputCn.getText().toString();
-                    if(cn.equals("")){
-                        Toast.makeText(RecordWordActivity.this, "中文不能为空", Toast.LENGTH_SHORT).show();
+                    if(!checkInputCorrect(en, cn, MODE_CHECK_ONLY_CN)){
                         return;
                     }
                     mode = WordDao.MODE_ONLY_CN;
                     break;
                 case R.id.single_en_or_cn: //中英文满足一个
-                    en = inputEn.getText().toString();
-                    cn = inputCn.getText().toString();
-                    if(en.equals("") && cn.equals("")){
-                        Toast.makeText(RecordWordActivity.this, "中英文不能全为空", Toast.LENGTH_SHORT).show();
+                    if(!checkInputCorrect(en, cn, MODE_CHECK_EN_OR_CN)){
                         return;
                     }
                     mode = WordDao.MODE_EN_OR_CN;
                     break;
                 case R.id.single_en_and_cn: //中英文匹配
-                    en = inputEn.getText().toString();
-                    cn = inputCn.getText().toString();
-                    if(en.equals("") || cn.equals("")){
-                        Toast.makeText(RecordWordActivity.this, "中英文不能为空", Toast.LENGTH_SHORT).show();
+                    if(!checkInputCorrect(en, cn, MODE_CHECK_EN_AND_CN)){
                         return;
                     }
                     mode = WordDao.MODE_EN_AND_CN;
@@ -129,8 +122,7 @@ public class RecordWordActivity extends AppCompatActivity {
             String en = inputEn.getText().toString();
             String cn = inputCn.getText().toString();
 
-            if(en.equals("") || cn.equals("")){
-                Toast.makeText(RecordWordActivity.this, "中英文不能为空", Toast.LENGTH_SHORT).show();
+            if(!checkInputCorrect(en, cn, MODE_CHECK_EN_AND_CN)){
                 return;
             }
 
@@ -138,17 +130,15 @@ public class RecordWordActivity extends AppCompatActivity {
 
             //根据英语更新单词
             int updateNum = 0;
-            String msg = null;
             updateNum =  WordDao.update(new Word(en, cn, System.currentTimeMillis()), WordDao.MODE_ONLY_EN, WordDao.TABLE_WORDS);
             updateNum +=  WordDao.update(new Word(en, cn, System.currentTimeMillis()), WordDao.MODE_ONLY_EN, WordDao.TABLE_LAST_WORDS);
 
             //根据更新数目提示
             if(updateNum > 0){
-                msg = "更新完毕";
+                showMessage("更新完毕", Toast.LENGTH_SHORT);
             }else{
-                msg = "更新失败，该单词可能不存在";
+                showMessage("更新失败，该单词可能不存在", Toast.LENGTH_SHORT);
             }
-            Toast.makeText(RecordWordActivity.this, msg, Toast.LENGTH_SHORT).show();
         }
 
         //记录单词
@@ -156,8 +146,7 @@ public class RecordWordActivity extends AppCompatActivity {
             String en = inputEn.getText().toString();
             String cn = inputCn.getText().toString();
 
-            if(en.equals("") || cn.equals("")){
-                Toast.makeText(RecordWordActivity.this, "中英文不能为空", Toast.LENGTH_SHORT).show();
+            if(!checkInputCorrect(en, cn, MODE_CHECK_EN_AND_CN)){
                 return;
             }
             Word data = new Word(en, cn, System.currentTimeMillis());
@@ -171,10 +160,54 @@ public class RecordWordActivity extends AppCompatActivity {
         }
     }
 
-    private boolean checkInput(int mode){
-        //todo 检查输入字符数，是否符合模式
+    //检查输入，有一个不成立则返回false
+    private boolean checkInputCorrect(@NonNull String en, @NonNull String cn, int mode){
+        String info = null;
+        boolean correct = true;
 
-        return false;
+        //检查字符数
+        if(en.length() > LIMIT_CHAR_NUM || cn.length() > LIMIT_CHAR_NUM){
+            info = "输入的字符数不能多于15个";
+            correct = false;
+        }else { //根据mode检查输入状态
+            switch (mode) {
+                case MODE_CHECK_ONLY_EN:
+                    if (en.equals("")){
+                        info = "请输入英文";
+                        correct = false;
+                    }
+                    break;
+                case MODE_CHECK_ONLY_CN:
+                    if(cn.equals("")){
+                        info = "请输入中文";
+                        correct = false;
+                    }
+                    break;
+                case MODE_CHECK_EN_OR_CN:
+                    if(en.equals("") && cn.equals("")){
+                        info = "请输入中文或英文";
+                        correct = false;
+                    }
+                    break;
+                case MODE_CHECK_EN_AND_CN:
+                    if(en.equals("") ||cn.equals("")){
+                        info = "请输入中文和英文";
+                        correct = false;
+                    }
+                    break;
+            }
+        }
+
+        if(!correct) { //输入错误时展示信息
+            showMessage(info, Toast.LENGTH_SHORT);
+        }
+        return correct;
+    }
+
+    //利用Toast显示信息
+    //老是忘了show，干脆写个方法来调用算了
+    private void showMessage(String msg, int length){
+        BasicTool.showMessage(this, msg, length);
     }
 
     private class OnCheckedChangeListenerImpl implements RadioGroup.OnCheckedChangeListener{
