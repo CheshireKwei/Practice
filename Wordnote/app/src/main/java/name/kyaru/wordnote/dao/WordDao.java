@@ -2,6 +2,8 @@ package name.kyaru.wordnote.dao;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import name.kyaru.wordnote.datastruct.Word;
@@ -17,6 +19,8 @@ public class WordDao {
     public static final int MODE_ONLY_CN = 1;
     public static final int MODE_EN_OR_CN = 3;
     public static final int MODE_EN_AND_CN = 4;
+    public static final int PURPOSE_REVIEW = 0;
+    public static final int PURPOSE_EXPLORE = 1;
     private static SQLiteDatabase db;
 
     public static boolean insert(Word word, String table) {
@@ -50,10 +54,22 @@ public class WordDao {
         }
     }
 
-    public static List<Word> query(Word word, int mode, String table){
+    public static List<Word> query(Word word, int mode, String table, int purpose){
         Cursor results = detailQuery(word, mode, table);
         if(results != null && results.getCount() > 0){
-            List<Word> words = new LinkedList<>();
+            //根据目的来生成集合
+            List<Word> words = null;
+            switch (purpose) {
+                default:
+                case PURPOSE_EXPLORE:
+                    words = new LinkedList<>();
+                    break;
+                case PURPOSE_REVIEW:
+                    words = new ArrayList<>();
+                    break;
+            }
+
+            //遍历游标，取出单词
             if(results.moveToFirst()) {
                 do {
                     Word w = new Word();

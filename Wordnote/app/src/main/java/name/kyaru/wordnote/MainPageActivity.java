@@ -35,7 +35,7 @@ public class MainPageActivity extends AppCompatActivity {
     //根据是否是同一天来移动数据
     private void dataMove() {
         if(!isSameDay()){ //不是同一天，移动单词
-            List<Word> words = WordDao.query(null, WordDao.MODE_ALL, WordDao.TABLE_LAST_WORDS);
+            List<Word> words = WordDao.query(null, WordDao.MODE_ALL, WordDao.TABLE_LAST_WORDS, WordDao.PURPOSE_EXPLORE);
             if(words != null) { //如果前一天没有单词，则不移动
                 for (Word w : words) {
                     WordDao.insert(w, WordDao.TABLE_WORDS); //将前一天的单词移动到常驻表

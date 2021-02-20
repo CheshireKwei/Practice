@@ -74,7 +74,7 @@ public class ReviewActivity extends AppCompatActivity {
             case MODE_RAND_WORDS: //以前的单词
                 table = WordDao.TABLE_WORDS;
         }
-        words = WordDao.query(null, WordDao.MODE_ALL, table); //获取单词
+        words = WordDao.query(null, WordDao.MODE_ALL, table, WordDao.PURPOSE_REVIEW); //获取单词
         sGenerator = new CnSelectionGenerator(); //获取中文选项生成器
     }
 

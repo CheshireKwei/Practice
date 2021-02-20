@@ -1,6 +1,5 @@
 package name.kyaru.wordnote.bgm;
 import android.content.Context;
-import android.content.Intent;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -17,7 +16,7 @@ public class EffectManager {
     public static final int TYPE_PRAISE = 3;
     public static final int TYPE_REGRET = 4;
     public static final int TYPE_VICTORY = 5;
-    private static final int MUSIC_NUM = 19;
+    private static final int MUSIC_NUM = 22;
     private static final int NUM_TYPE = 6;
     private static EffectManager singleton = null;
     private static int[][] resourceIds = null;
@@ -182,7 +181,30 @@ public class EffectManager {
         resourceIds[18][3] = R.raw.yui_praise;
         resourceIds[18][4] = R.raw.yui_regret;
         resourceIds[18][5] = R.raw.yui_victory;
-        
+
+        //安
+        resourceIds[19][0] = R.raw.ann_begin;
+        resourceIds[19][1] = R.raw.ann_last;
+        resourceIds[19][2] = R.raw.ann_lose;
+        resourceIds[19][3] = R.raw.ann_praise;
+        resourceIds[19][4] = R.raw.ann_regret;
+        resourceIds[19][5] = R.raw.ann_victory;
+
+        //古蕾雅
+        resourceIds[20][0] = R.raw.grea_begin;
+        resourceIds[20][1] = R.raw.grea_last;
+        resourceIds[20][2] = R.raw.grea_lose;
+        resourceIds[20][3] = R.raw.grea_praise;
+        resourceIds[20][4] = R.raw.grea_regret;
+        resourceIds[20][5] = R.raw.grea_victory;
+
+        //露娜
+        resourceIds[21][0] = R.raw.luna_begin;
+        resourceIds[21][1] = R.raw.luna_last;
+        resourceIds[21][2] = R.raw.luna_lose;
+        resourceIds[21][3] = R.raw.luna_praise;
+        resourceIds[21][4] = R.raw.luna_regret;
+        resourceIds[21][5] = R.raw.luna_victory;
     }
 
     private EffectManager(Context context, Callback callback){

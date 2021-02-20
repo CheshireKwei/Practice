@@ -21,15 +21,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-
-import name.kyaru.wordnote.ExploreActivity;
 import name.kyaru.wordnote.dao.WordDao;
 import name.kyaru.wordnote.datastruct.Word;
 
@@ -71,7 +71,11 @@ public class BasicTool {
         Toast.makeText(context, msg, showLength).show();
     }
 
-    public static JSONArray parseToJSONArray(List<Word> words) throws JSONException {
+    public static void showMessage(Context context, String msg){
+        showMessage(context, msg, Toast.LENGTH_SHORT);
+    }
+
+    public static JSONArray parseJSONArray(List<Word> words) throws JSONException {
         JSONArray jsonArray = new JSONArray();
         for (Word w : words) {
             JSONObject jo = new JSONObject();
@@ -84,9 +88,19 @@ public class BasicTool {
         return jsonArray;
     }
 
-    public static List<Word> parseToWord(JSONArray jArray){
-        //todo
+    public static List<Word> parseWord(String sJson) throws JSONException{
+        List<Word> words = new ArrayList<>();
+        JSONArray jArray = new JSONArray(sJson);
+        JSONObject jObject = null;
+        Word word = null;
 
-        return null;
+        //遍历json数组，取出单词
+        for(int i = 0; i < jArray.length(); i++){
+            jObject = (JSONObject)jArray.get(i);
+            word = new Word(jObject.getString(WordDao.FIELD_EN), jObject.getString(WordDao.FIELD_CN), jObject.getLong(WordDao.FIELD_TIME));
+            words.add(word);
+        }
+
+        return words;
     }
 }
