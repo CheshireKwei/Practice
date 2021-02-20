@@ -12,7 +12,7 @@ public class CnSelectionGenerator extends AbsSelectionGenerator {
         List<String> selections = new LinkedList<>();
         if(needAdd) { //如果需要添加已选项，则保留一个位置
             generate(selections, count - 1, words, selected);
-            int insertIndex = BasicTool.generateRandNumber(count - 1);
+            int insertIndex = BasicTool.generateRandNumber(count);
             selections.add(insertIndex, words.get(selected).getCn()); //将答案插入到随机下标，以达到选项随机排序的效果
         }else{ //不需要添加已选项，则全部生成
             generate(selections, count, words, selected);

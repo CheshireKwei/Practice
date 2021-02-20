@@ -25,6 +25,9 @@ public class ExampleUnitTest {
 
     @Test
     public void test(){
-
+        List<String> ss = new LinkedList<>();
+        ss.add(0, "hello");
+        ss.add(1, "o");
+        System.out.println("" + ss.get(1));
     }
 }
