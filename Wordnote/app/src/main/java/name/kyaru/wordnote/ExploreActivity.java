@@ -153,7 +153,7 @@ public class ExploreActivity extends AppCompatActivity {
 
     private void showTitleFor(int mode){
         if(mode == WordDao.MODE_ALL){
-            showTitle.setText("浏览单词");
+            showTitle.setText("单词浏览");
         }else{
             showTitle.setText("查找结果");
         }
